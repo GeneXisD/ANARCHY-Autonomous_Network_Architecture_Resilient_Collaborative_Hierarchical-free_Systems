@@ -1,0 +1,18 @@
+{
+  "artifact_type": "semantic provenance graph",
+  "source": "Decentralized_Cybersecurity_Midterm_Project.docx",
+  "source_sha256": "6b47f92f64173e63a13b3c567998ca305818991925045b57241a1258ea9a0531",
+  "sections": 64,
+  "paragraphs": 295,
+  "term_occurrences": {
+    "Netsukuku": 25,
+    "dyne:bolic": 22,
+    "ANDNA": 6,
+    "Tor": 63,
+    "NIST": 14,
+    "MPL": 12,
+    "MIT": 8,
+    "Rust": 20
+  },
+  "provenance_status": "source-derived; external relationships are not asserted unless evidenced"
+}

@@ -1,0 +1,15 @@
+DECENTRALIZED CYBERSECURITY — CURRENT WORKING SET
+Snapshot: 2026-09-01
+
+This bundle contains the files currently available in the conversation workspace from the Decentralized Cybersecurity midterm/SVG/provenance work.
+
+Included:
+- Decentralized_Cybersecurity_Midterm_Project.docx — source document
+- Decentralized_Cybersecurity_Midterm_Project.pdf — PDF conversion
+- Decentralized_Cybersecurity_Midterm_Project_semantic.svg — semantic SVG reconstruction
+- Decentralized_Cybersecurity_Midterm_Project_SVG_bundle.zip — SVG conversion bundle
+- Decentralized_Cybersecurity_Midterm_Project_SVG_pages.zip — page-level SVG bundle
+- Decentralized_Cybersecurity_Midterm_Project_provenance_bundle.zip — provenance artifact bundle
+- provenance/ — provenance SVG, JSON, and DOT files
+
+Note: This is a file bundle, not a transcript of the entire chat. Research conclusions discussed in chat that have not yet been written to a file are not represented as standalone research notes here.

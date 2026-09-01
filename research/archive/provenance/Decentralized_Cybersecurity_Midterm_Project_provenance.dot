@@ -1,0 +1,1 @@
+digraph Provenance { rankdir=LR; DOCX -> "Semantic SVG"; "Semantic SVG" -> Metadata; Metadata -> "License evidence" [style=dashed]; Metadata -> "Repository/version/commit" [style=dashed]; Metadata -> "Dependency/SBOM" [style=dashed]; Metadata -> "Security evidence" [style=dashed]; }
