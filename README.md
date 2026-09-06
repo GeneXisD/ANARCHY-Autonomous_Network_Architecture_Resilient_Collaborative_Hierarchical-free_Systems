@@ -196,8 +196,8 @@ Evidence classification: **Historical evidence / collection-analysis prior art /
 
 ## 4. IPFS / Kubo setup automation
 
-**Repository:** https://github.com/GeneXisD/setup-ipfs
-**Upstream implementation lineage:** https://github.com/oduwsdl/setup-ipfs
+**Repository:** https://github.com/GeneXisD/setup-ipfs  
+**Upstream implementation lineage:** https://github.com/oduwsdl/setup-ipfs  
 **Kubo:** https://github.com/ipfs/kubo
 
 The setup action installs and initializes Kubo/IPFS in GitHub Actions environments. Its documented outputs include a resolved IPFS version, download URL, peer identity, and a content reference for the initialized Welcome object.
@@ -446,7 +446,7 @@ When investigating a suspected relationship, prefer this sequence:
 
 ## ANARCHY / GeneXisD
 
-- https://github.com/GeneXisD/ANARCHY-Autonomous_Network_Architecture_Resilient_Hierarchical-free_Systems
+- https://github.com/GeneXisD/ANARCHY-Autonomous_Network_Architecture_Resilient_Collaborative_Hierarchical-free_Systems
 - https://github.com/GeneXisD/ipwb
 - https://github.com/GeneXisD/CarbonDate
 - https://github.com/GeneXisD/setup-ipfs
