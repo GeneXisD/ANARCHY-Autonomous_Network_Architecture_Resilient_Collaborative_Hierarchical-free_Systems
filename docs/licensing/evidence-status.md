@@ -34,6 +34,32 @@ The exact supplied copy is not yet hash-matched to a specific upstream release. 
 
 Evidence record: `evidence/phpmyadmin-advisory-rules.md`
 
+### phpMyAdmin configuration corpus
+
+**Status: SUPPORTED**
+
+The supplied multi-part configuration documentation describes phpMyAdmin's layered configuration model, server definitions, authentication, authorization, trust boundaries, persistent configuration/state, tracking, resource controls, import/export, filesystem staging, debugging, query history and multi-server operation. The official phpMyAdmin documentation structure corroborates these configuration sections. citeturn0search0turn0search2
+
+The configuration corpus is relevant to ANARCHY as a historical technical precedent for a policy-driven control plane in which defaults and overrides feed identity, authorization, trust, state, audit, resource governance and execution behavior.
+
+A particularly important architectural distinction is **visibility/presentation policy versus actual authorization enforcement**. Configuration can constrain what an operator sees or what the application permits while underlying database privileges remain a separate enforcement authority.
+
+The supplied configuration text is not yet hash-matched to a specific upstream documentation release, so its exact version provenance remains SUPPORTED rather than VERIFIED.
+
+Evidence record: `evidence/phpmyadmin-configuration.md`
+
+### phpMyAdmin credits and historical lineage
+
+**Status: SUPPORTED**
+
+The supplied Credits corpus is corroborated by official phpMyAdmin 4.9.9 documentation. It records chronological project and subsystem contributions and preserves the original Version 2.1.0 statement that phpMyAdmin was conceptually based on Peter Kuppelwieser's MySQL-Webadmin while explicitly stating that its source code was not used. citeturn0search1turn0search5
+
+This is significant provenance evidence because it demonstrates an upstream project's own distinction between conceptual influence and source-code ancestry. It also maps contributors to functional areas including authentication, IP Allow/Deny, DB-based configuration, export/import, query history, tracking, replication, automated testing and security assessment.
+
+ANARCHY should preserve the same distinction: technical similarity or conceptual influence is not evidence of copied implementation, dependency, authorship or license inheritance.
+
+Evidence record: `evidence/phpmyadmin-credits.md`
+
 ### phpMyAdmin copyright and third-party licensing notice
 
 **Status: SUPPORTED**
@@ -102,6 +128,8 @@ A component can be legally modifiable under its copyright license while still re
 | XAMPP build model | ApacheFriends | component-specific | possible | component-specific | Apache/XAMPP marks separate | public project docs | SUPPORTED |
 | PHP component inventory | PHP ecosystem | component-specific | component-specific | component-specific | separate | supplied inventory | SUPPORTED |
 | phpMyAdmin advisory rules | phpMyAdmin | GPL-2.0 context; exact file metadata pending | possible under applicable GPL terms | possible under applicable GPL terms | phpMyAdmin marks separate | public release/source evidence | SUPPORTED |
+| phpMyAdmin configuration corpus | phpMyAdmin | documentation/project context; exact release metadata pending | documentation reuse requires separate analysis | documentation reuse requires separate analysis | separate | official documentation evidence | SUPPORTED |
+| phpMyAdmin credits | phpMyAdmin | documentation/project context; exact file metadata pending | documentation reuse requires separate analysis | documentation reuse requires separate analysis | separate | official 4.9.9 documentation evidence | SUPPORTED |
 | phpMyAdmin copyright notice | phpMyAdmin | GPL context; third-party components retain respective licenses | governed by applicable GPL/component terms | governed by applicable GPL/component terms | separate analysis required | supplied notice + release/source evidence | SUPPORTED |
 | openSUSE-derived environment | openSUSE | component-specific | possible | component-specific | separate openSUSE trademark rules | public trademark docs | SUPPORTED |
 | Linux kernel/modules | Linux upstream | GPL obligations | possible | GPL obligations | N/A | policy TBD | SUPPORTED |
