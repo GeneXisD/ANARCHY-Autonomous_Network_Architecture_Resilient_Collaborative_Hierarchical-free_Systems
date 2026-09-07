@@ -69,7 +69,7 @@ A successful build is not automatically a release. Release records should identi
 
 ### 5. Security control
 
-The repository should progressively adopt appropriate secret scanning, dependency/security alerts, code scanning, and responsible disclosure practices. GitHub recommends these controls as part of repository security hygiene. citeturn0search0
+The repository should progressively adopt appropriate secret scanning, dependency/security alerts, code scanning, and responsible disclosure practices.
 
 ### 6. Auditability
 
