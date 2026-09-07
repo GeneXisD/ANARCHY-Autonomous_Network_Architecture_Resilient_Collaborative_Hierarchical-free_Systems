@@ -34,6 +34,18 @@ The exact supplied copy is not yet hash-matched to a specific upstream release. 
 
 Evidence record: `evidence/phpmyadmin-advisory-rules.md`
 
+### phpMyAdmin copyright and third-party licensing notice
+
+**Status: SUPPORTED**
+
+The supplied notice records project-level copyright attribution, GPL licensing, the warranty disclaimer, and an explicit separation of third-party component licenses. It specifically identifies jQuery content under MIT/GPL terms and Composer libraries as carrying their own licensing information.
+
+This is important evidence for ANARCHY's component-level SBOM/provenance model: an aggregate project license does not eliminate the need to track bundled dependencies and their notices individually.
+
+The exact supplied notice is not yet hash-matched to a specific phpMyAdmin release/tag, so its historical copyright years and contributor list must not be generalized to every phpMyAdmin release.
+
+Evidence record: `evidence/phpmyadmin-copyright.md`
+
 ## Unverified / awaiting primary evidence
 
 ### DC219 Open Source Software Policy
@@ -90,6 +102,7 @@ A component can be legally modifiable under its copyright license while still re
 | XAMPP build model | ApacheFriends | component-specific | possible | component-specific | Apache/XAMPP marks separate | public project docs | SUPPORTED |
 | PHP component inventory | PHP ecosystem | component-specific | component-specific | component-specific | separate | supplied inventory | SUPPORTED |
 | phpMyAdmin advisory rules | phpMyAdmin | GPL-2.0 context; exact file metadata pending | possible under applicable GPL terms | possible under applicable GPL terms | phpMyAdmin marks separate | public release/source evidence | SUPPORTED |
+| phpMyAdmin copyright notice | phpMyAdmin | GPL context; third-party components retain respective licenses | governed by applicable GPL/component terms | governed by applicable GPL/component terms | separate analysis required | supplied notice + release/source evidence | SUPPORTED |
 | openSUSE-derived environment | openSUSE | component-specific | possible | component-specific | separate openSUSE trademark rules | public trademark docs | SUPPORTED |
 | Linux kernel/modules | Linux upstream | GPL obligations | possible | GPL obligations | N/A | policy TBD | SUPPORTED |
 | Apple restore tools | upstream projects | project-specific | possible | project-specific | Apple marks separate | policy TBD | PROPOSED |
