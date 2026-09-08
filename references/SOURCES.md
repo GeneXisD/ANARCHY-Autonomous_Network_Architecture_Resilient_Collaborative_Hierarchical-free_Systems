@@ -53,3 +53,25 @@ https://www.nist.gov/
 ## NIST SP 800-189
 
 https://nvlpubs.nist.gov/nistpubs/SpecialPublications/NIST.SP.800-189.pdf
+
+## Cygwin — compatibility runtime prior art
+
+https://www.cygwin.com/
+
+### Environment and runtime policy
+
+https://jhauga.github.io/cygwin-htdocs/cygwin-ug-net/using-cygwinenv.html
+
+### Locale and encoding
+
+https://jhauga.github.io/cygwin-htdocs/cygwin-ug-net/setup-locale.html
+
+### Environment / host boundary
+
+https://jhauga.github.io/cygwin-htdocs/cygwin-ug-net/setup-env.html
+
+### Process profiling and fork behavior
+
+https://jhauga.github.io/cygwin-htdocs/cygwin-ug-net/gprof.html#gprof-fork
+
+Cygwin references are cataloged as third-party prior art/reference material. They do not by themselves establish ANARCHY ownership, authorship, or licensing.
