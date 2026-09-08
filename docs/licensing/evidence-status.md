@@ -20,6 +20,26 @@ The supplied build documentation demonstrates explicit dependency configuration,
 
 The public specification demonstrates declarative repository/package installation. Trademark permissions remain separate from the software licenses.
 
+### Oracle StorageTek SL150 licensing disclosure
+
+**Status: COMPARATIVE PRIMARY-SOURCE EVIDENCE**
+
+The repository preserves the supplied `Licensing Information.pdf` from the Oracle StorageTek SL150 licensing documentation. The document identifies/reproduces multiple third-party notices and licenses associated with software included/distributed with the product.
+
+This is evidence for the **existence of historical component-level licensing disclosure inside a larger product**, not evidence that Oracle owns those components or that their licenses apply to ANARCHY.
+
+Provenance record:
+
+`docs/provenance/oracle-storagetek-sl150-licensing.md`
+
+Preserved artifact metadata:
+
+- Path: `Licensing Information.pdf`
+- Git blob SHA-1: `24550bee55d4364c2813fe3a27edbb1fec4eb4dc`
+- Size: `1,250,130` bytes
+
+The Git blob SHA-1 is not a SHA-256 file digest. A cryptographic digest should be generated from the actual PDF bytes during a controlled archival pass.
+
 ## Unverified / awaiting primary evidence
 
 ### DC219 Open Source Software Policy
@@ -77,6 +97,7 @@ A component can be legally modifiable under its copyright license while still re
 | openSUSE-derived environment | openSUSE | component-specific | possible | component-specific | separate openSUSE trademark rules | public trademark docs | SUPPORTED |
 | Linux kernel/modules | Linux upstream | GPL obligations | possible | GPL obligations | N/A | policy TBD | SUPPORTED |
 | Apple restore tools | upstream projects | project-specific | possible | project-specific | Apple marks separate | policy TBD | PROPOSED |
+| Oracle StorageTek SL150 disclosure | Oracle product + named third-party components | component-specific | component-specific | component-specific | separate | Oracle disclosure | COMPARATIVE |
 | FunkyMios | TBD | TBD | TBD | TBD | TBD | TBD | UNVERIFIED |
 | Linux&C Vol.39 | publication | publication copyright | TBD | TBD | N/A | TBD | UNVERIFIED |
 | DC219 policy | TBD | policy document | TBD | TBD | TBD | actual text required | UNVERIFIED |
