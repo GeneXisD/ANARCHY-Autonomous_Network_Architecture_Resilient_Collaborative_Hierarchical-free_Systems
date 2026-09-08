@@ -13,7 +13,34 @@ Candidate architecture layers:
 9. Governance
 10. Application
 
-Research questions:
+## Cross-cutting portability layer
+
+ANARCHY also defines a candidate **Portable Compatibility Runtime** that separates host-specific ABI behavior from the canonical ANARCHY runtime.
+
+```text
+Host ABI
+   |
+Host Adapter
+   |
+Compatibility Runtime
+   |-- environment
+   |-- paths
+   |-- process semantics
+   |-- IPC
+   |-- locale / encoding
+   |-- runtime policy
+   `-- observability
+   |
+Canonical ANARCHY Runtime
+   |
+ANARCHY node services
+```
+
+This layer is informed by compatibility-system prior art, including Cygwin, but does not make Cygwin an ANARCHY dependency.
+
+See [`compatibility-runtime.md`](compatibility-runtime.md).
+
+## Research questions
 
 - How do autonomous nodes discover each other?
 - How does routing work without a mandatory central controller?
@@ -25,3 +52,5 @@ Research questions:
 - How is provenance preserved across migrations?
 - How are software licenses represented?
 - How can independent implementations interoperate?
+- What host ABI differences must be normalized for independent implementations to interoperate?
+- What is the minimum canonical runtime contract shared across operating systems?
