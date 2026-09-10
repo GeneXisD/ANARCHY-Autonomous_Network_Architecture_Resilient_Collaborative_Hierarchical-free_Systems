@@ -1,0 +1,12 @@
+component,origin_or_owner,rights_status,license_or_basis,version_or_commit,modified_by_anarchy,commercial_use_status,evidence
+FEC Open Source Policy,Federal Election Commission,institutional policy,government open-source policy,,,Research evidence,https://github.com/fecgov/FEC/blob/master/OPEN-SOURCE-POLICY.md
+FEC/openFEC,Federal Election Commission,government software,CC0-1.0 for applicable project material,,,See project license and component notices,https://github.com/fecgov/openFEC/blob/master/LICENSE.md
+Creative Commons CC0 1.0,Creative Commons,rights dedication,CC0-1.0,,,Permissive including commercial use subject to retained rights,https://creativecommons.org/publicdomain/zero/1.0/
+UC Berkeley OS3,University of California Berkeley,institutional program,Open-source startup/commercialization model,,,Research reference,https://ipira.berkeley.edu/open-source-software-startup-program
+MIT Open-Source Entrepreneurship,Massachusetts Institute of Technology,institutional program,Open-source entrepreneurship education,,,Research reference,https://entrepreneurship.mit.edu/news/open-source-entrepreneurship/
+Oracle open-source commitment,Oracle,institutional/technology history,Open-source stewardship and integration,,,Research reference,https://www.oracle.com/a/otn/docs/oracles-commitment-to-open-source.pdf
+Oracle Enterprise Manager Cygwin integration,Oracle,technology integration,Oracle documentation + Cygwin licensing,,,Verify release-specific dependencies,https://docs.oracle.com/en/enterprise-manager/cloud-control/enterprise-manager-cloud-control/24.1/embsc/installing-cygwin.html
+Cygwin,Cygwin Project / historical Cygnus/Red Hat lineage,third-party OSS,Multiple licenses including GPL/LGPL components,,,Depends on exact component/version,https://cygwin.com/licensing.html
+Berkeley DB,Oracle / Berkeley-origin lineage,third-party technology,Open-source and commercial licensing options,,,Depends on license selected and release,https://www.oracle.com/database/technologies/related/berkeleydb/berkeleydb-licensing.html
+FECfile modernization,Federal Election Commission,government modernization program,Open-source reuse model described by FEC,,,Research reference,https://www.fec.gov/updates/fec-receives-88-million-award-to-modernize-agencys-electronic-filing-system/
+FEC campaign-finance data,Federal Election Commission,government data,Public-access data subject to applicable statutory restrictions,,,Review use-specific law before redistribution,https://www.fec.gov/legal-resources/court-cases/fec-v-political-contributions-data/
