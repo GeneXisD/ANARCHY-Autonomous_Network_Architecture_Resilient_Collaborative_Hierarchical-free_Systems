@@ -1,0 +1,2692 @@
+<HTML>
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN">
+<!-- Created on January, 30  2004 by texi2html 1.64 -->
+<!-- 
+Written by: Lionel Cons <Lionel.Cons@cern.ch> (original author)
+            Karl Berry  <karl@freefriends.org>
+            Olaf Bachmann <obachman@mathematik.uni-kl.de>
+            and many others.
+Maintained by: Olaf Bachmann <obachman@mathematik.uni-kl.de>
+Send bugs and suggestions to <texi2html@mathematik.uni-kl.de>
+ 
+-->
+<HEAD>
+<TITLE>The Red Hat newlib C Math Library: </TITLE>
+
+<META NAME="description" CONTENT="The Red Hat newlib C Math Library: ">
+<META NAME="keywords" CONTENT="The Red Hat newlib C Math Library: ">
+<META NAME="resource-type" CONTENT="document">
+<META NAME="distribution" CONTENT="global">
+<META NAME="Generator" CONTENT="texi2html 1.64">
+
+</HEAD>
+
+<BODY LANG="" BGCOLOR="#FFFFFF" TEXT="#000000" LINK="#0000FF" VLINK="#800080" ALINK="#FF0000">
+
+<A NAME="SEC_Top"></A>
+<h1>The Red Hat newlib C Math Library: </h1>
+<h2>Full Configuration</h2>
+<h2><code>libm</code> 1.12.0</h2>
+<h2>January 30, 2004 </h2>
+<address>{Steve Chamberlain}</address>
+<address>{Roland Pesch}</address>
+<address>{Red Hat Support}</address>
+<address>{Jeff Johnston}</address>
+<p>
+<p><hr><p>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H1>Red Hat newlib C Library: libm</H1></P><P>
+
+<BLOCKQUOTE><TABLE BORDER=0 CELLSPACING=0> 
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC1">1. Mathematical Functions (<TT>`math.h'</TT>)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">The mathematical functions (`math.h').</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC42">2. Reentrancy Properties of <CODE>libm</CODE></A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">The functions in libm are not reentrant by default.</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC43">Index</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+</TABLE></BLOCKQUOTE>
+<P>
+
+<HR SIZE=1>
+<A NAME="SEC1"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC2"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[ &lt;&lt; ]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<A NAME="Math"></A>
+<H1> 1. Mathematical Functions (<TT>`math.h'</TT>) </H1>
+<!--docid::SEC1::-->
+<P>
+
+This chapter groups a wide variety of mathematical functions.  The
+corresponding definitions and declarations are in <TT>`math.h'</TT>.  
+Two definitions from <TT>`math.h'</TT> are of particular interest.  
+</P><P>
+
+<OL>
+<LI>
+The representation of infinity as a <CODE>double</CODE> is defined as
+<CODE>HUGE_VAL</CODE>; this number is returned on overflow by many functions.
+<P>
+
+<LI>
+The structure <CODE>exception</CODE> is used when you write customized error
+handlers for the mathematical functions.  You can customize error
+handling for most of these functions by defining your own version of
+<CODE>matherr</CODE>; see the section on <CODE>matherr</CODE> for details.
+</OL>
+<P>
+
+<A NAME="IDX1"></A>
+<A NAME="IDX2"></A>
+<A NAME="IDX3"></A>
+<A NAME="IDX4"></A>
+Since the error handling code calls <CODE>fputs</CODE>, the mathematical
+subroutines require stubs or minimal implementations for the same list
+of OS subroutines as <CODE>fputs</CODE>: <CODE>close</CODE>, <CODE>fstat</CODE>,
+<CODE>isatty</CODE>, <CODE>lseek</CODE>, <CODE>read</CODE>, <CODE>sbrk</CODE>, <CODE>write</CODE>.
+See section `System Calls' in <CITE>The Cygnus C Support Library</CITE>,
+for a discussion and for sample minimal implementations of these support
+subroutines.
+</P><P>
+
+Alternative declarations of the mathematical functions, which exploit
+specific machine capabilities to operate faster--but generally have
+less error checking and may reflect additional limitations on some
+machines--are available when you include <TT>`fastmath.h'</TT> instead of
+<TT>`math.h'</TT>.
+</P><P>
+
+<BLOCKQUOTE><TABLE BORDER=0 CELLSPACING=0> 
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC2">1.1 Version of library</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP"></TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC3">1.2 <CODE>acos</CODE>, <CODE>acosf</CODE>---arc cosine</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Arccosine</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC4">1.3 <CODE>acosh</CODE>, <CODE>acoshf</CODE>---inverse hyperbolic cosine</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Inverse hyperbolic cosine</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC5">1.4 <CODE>asin</CODE>, <CODE>asinf</CODE>---arc sine</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Arcsine</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC6">1.5 <CODE>asinh</CODE>, <CODE>asinhf</CODE>---inverse hyperbolic sine</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Inverse hyperbolic sine</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC7">1.6 <CODE>atan</CODE>, <CODE>atanf</CODE>---arc tangent</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Arctangent</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC8">1.7 <CODE>atan2</CODE>, <CODE>atan2f</CODE>---arc tangent of y/x</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Arctangent of y/x</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC9">1.8 <CODE>atanh</CODE>, <CODE>atanhf</CODE>---inverse hyperbolic tangent</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Inverse hyperbolic tangent</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC10">1.9 <CODE>jN</CODE>,<CODE>jNf</CODE>,<CODE>yN</CODE>,<CODE>yNf</CODE>---Bessel functions</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Bessel functions  (jN, yN)</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC31">1.30 <CODE>cbrt</CODE>, <CODE>cbrtf</CODE>---cube root</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Cube root</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC32">1.31 <CODE>copysign</CODE>, <CODE>copysignf</CODE>---sign of <VAR>y</VAR>, magnitude of <VAR>x</VAR></A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Sign of Y, magnitude of X</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC11">1.10 <CODE>cosh</CODE>, <CODE>coshf</CODE>---hyperbolic cosine</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Hyperbolic cosine</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC12">1.11 <CODE>erf</CODE>, <CODE>erff</CODE>, <CODE>erfc</CODE>, <CODE>erfcf</CODE>---error function</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Error function  (erf, erfc)</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC13">1.12 <CODE>exp</CODE>, <CODE>expf</CODE>---exponential</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Exponential</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC33">1.32 <CODE>expm1</CODE>, <CODE>expm1f</CODE>---exponential minus 1</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Exponential of x, - 1</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC14">1.13 <CODE>fabs</CODE>, <CODE>fabsf</CODE>---absolute value (magnitude)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Absolute value (magnitude)</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC15">1.14 <CODE>floor</CODE>, <CODE>floorf</CODE>, <CODE>ceil</CODE>, <CODE>ceilf</CODE>---floor and ceiling</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Floor and ceiling  (floor, ceil)</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC16">1.15 <CODE>fmod</CODE>, <CODE>fmodf</CODE>---floating-point remainder (modulo)</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Floating-point remainder (modulo)</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC17">1.16 <CODE>frexp</CODE>, <CODE>frexpf</CODE>---split floating-point number</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Split floating-point number</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC18">1.17 <CODE>gamma</CODE>, <CODE>gammaf</CODE>, <CODE>lgamma</CODE>, <CODE>lgammaf</CODE>, <CODE>gamma_r</CODE>,</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Logarithmic gamma function</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC19">1.18 <CODE>hypot</CODE>, <CODE>hypotf</CODE>---distance from origin</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Distance from origin</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC34">1.33 <CODE>ilogb</CODE>, <CODE>ilogbf</CODE>---get exponent of floating-point number</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Get exponent</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC35">1.34 <CODE>infinity</CODE>, <CODE>infinityf</CODE>---representation of infinity</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Floating infinity</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC20">1.19 <CODE>isnan</CODE>,<CODE>isnanf</CODE>,<CODE>isinf</CODE>,<CODE>isinff</CODE>,<CODE>finite</CODE>,<CODE>finitef</CODE>---test for exceptional numbers</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Check type of number</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC21">1.20 <CODE>ldexp</CODE>, <CODE>ldexpf</CODE>---load exponent</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Load exponent</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC22">1.21 <CODE>log</CODE>, <CODE>logf</CODE>---natural logarithms</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Natural logarithms</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC23">1.22 <CODE>log10</CODE>, <CODE>log10f</CODE>---base 10 logarithms</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Base 10 logarithms</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC36">1.35 <CODE>log1p</CODE>, <CODE>log1pf</CODE>---log of <CODE>1 + <VAR>x</VAR></CODE></A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Log of 1 + X</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC37">1.36 <CODE>matherr</CODE>---modifiable math error handler</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Modifiable math error handler</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC38">1.37 <CODE>modf</CODE>, <CODE>modff</CODE>---split fractional and integer parts</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Split fractional and integer parts</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC39">1.38 <CODE>nan</CODE>, <CODE>nanf</CODE>---representation of "Not a Number"</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Floating Not a Number</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC40">1.39 <CODE>nextafter</CODE>, <CODE>nextafterf</CODE>---get next number</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Get next representable number</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC24">1.23 <CODE>pow</CODE>, <CODE>powf</CODE>---x to the power y</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">X to the power Y</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC25">1.24 <CODE>remainder</CODE>, <CODE>remainderf</CODE>---round and remainder</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">remainder of X divided by Y</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC41">1.40 <CODE>scalbn</CODE>, <CODE>scalbnf</CODE>---scale by power of two</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">scalbn</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC27">1.26 <CODE>sin</CODE>, <CODE>sinf</CODE>, <CODE>cos</CODE>, <CODE>cosf</CODE>---sine or cosine</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Sine or cosine (sin, cos)</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC28">1.27 <CODE>sinh</CODE>, <CODE>sinhf</CODE>---hyperbolic sine</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Hyperbolic sine</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC26">1.25 <CODE>sqrt</CODE>, <CODE>sqrtf</CODE>---positive square root</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Positive square root</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC29">1.28 <CODE>tan</CODE>, <CODE>tanf</CODE>---tangent</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Tangent</TD></TR>
+<TR><TD ALIGN="left" VALIGN="TOP"><A HREF="libm.html#SEC30">1.29 <CODE>tanh</CODE>, <CODE>tanhf</CODE>---hyperbolic tangent</A></TD><TD>&nbsp;&nbsp;</TD><TD ALIGN="left" VALIGN="TOP">Hyperbolic tangent</TD></TR>
+</TABLE></BLOCKQUOTE>
+<P>
+
+<A NAME="version"></A>
+<HR SIZE="6">
+<A NAME="SEC2"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC3"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[ &lt;&lt; ]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.1 Version of library </H2>
+<!--docid::SEC2::-->
+<P>
+
+There are four different versions of the math library routines: IEEE,
+POSIX, X/Open, or SVID.  The version may be selected at runtime by
+setting the global variable <CODE>_LIB_VERSION</CODE>, defined in
+<TT>`math.h'</TT>.  It may be set to one of the following constants defined
+in <TT>`math.h'</TT>: <CODE>_IEEE_</CODE>, <CODE>_POSIX_</CODE>, <CODE>_XOPEN_</CODE>, or
+<CODE>_SVID_</CODE>.  The <CODE>_LIB_VERSION</CODE> variable is not specific to any
+thread, and changing it will affect all threads.
+</P><P>
+
+The versions of the library differ only in how errors are handled.
+</P><P>
+
+In IEEE mode, the <CODE>matherr</CODE> function is never called, no warning
+messages are printed, and <CODE>errno</CODE> is never set.
+</P><P>
+
+In POSIX mode, <CODE>errno</CODE> is set correctly, but the <CODE>matherr</CODE>
+function is never called and no warning messages are printed.
+</P><P>
+
+In X/Open mode, <CODE>errno</CODE> is set correctly, and <CODE>matherr</CODE> is
+called, but warning message are not printed.
+</P><P>
+
+In SVID mode, functions which overflow return 3.40282346638528860e+38,
+the maximum single-precision floating-point value, rather than infinity.
+Also, <CODE>errno</CODE> is set correctly, <CODE>matherr</CODE> is called, and, if
+<CODE>matherr</CODE> returns 0, warning messages are printed for some errors.
+For example, by default <SAMP>`log(-1.0)'</SAMP> writes this message on standard
+error output:
+</P><P>
+
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>log: DOMAIN error
+</pre></td></tr></table></P><P>
+
+The library is set to X/Open mode by default.
+</P><P>
+
+<A NAME="acos"></A>
+<HR SIZE="6">
+<A NAME="SEC3"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC2"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC4"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC4"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.2 <CODE>acos</CODE>, <CODE>acosf</CODE>---arc cosine </H2>
+<!--docid::SEC3::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double acos(double <VAR>x</VAR>);
+float acosf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<P>
+
+<CODE>acos</CODE> computes the inverse cosine (arc cosine) of the input value.
+Arguments to <CODE>acos</CODE> must be in the range -1 to 1. 
+</P><P>
+
+<CODE>acosf</CODE> is identical to <CODE>acos</CODE>, except that it performs
+its calculations on <CODE>floats</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+<CODE>acos</CODE> and <CODE>acosf</CODE> return values in radians, in the range of 0 to pi.
+</P><P>
+
+If <VAR>x</VAR> is not between -1 and 1, the returned value is NaN
+(not a number) the global variable <CODE>errno</CODE> is set to <CODE>EDOM</CODE>, and a
+<CODE>DOMAIN error</CODE> message is sent as standard error output.
+</P><P>
+
+You can modify error handling for these functions using <CODE>matherr</CODE>.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="acosh"></A>
+<HR SIZE="6">
+<A NAME="SEC4"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC3"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC5"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC5"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.3 <CODE>acosh</CODE>, <CODE>acoshf</CODE>---inverse hyperbolic cosine </H2>
+<!--docid::SEC4::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double acosh(double <VAR>x</VAR>);
+float acoshf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>acosh</CODE> calculates the inverse hyperbolic cosine of <VAR>x</VAR>.
+<CODE>acosh</CODE> is defined as 
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre> log(<VAR>x</VAR> + sqrt(<VAR>x</VAR>*<VAR>x</VAR>-1))
+</FONT></pre></td></tr></table><P>
+
+<VAR>x</VAR> must be a number greater than or equal to 1.
+</P><P>
+
+<CODE>acoshf</CODE> is identical, other than taking and returning floats.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+<CODE>acosh</CODE> and <CODE>acoshf</CODE> return the calculated value.  If <VAR>x</VAR> 
+less than 1, the return value is NaN and <CODE>errno</CODE> is set to <CODE>EDOM</CODE>.
+</P><P>
+
+You can change the error-handling behavior with the non-ANSI
+<CODE>matherr</CODE> function.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+Neither <CODE>acosh</CODE> nor <CODE>acoshf</CODE> are ANSI C.  They are not recommended
+for portable programs.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="asin"></A>
+<HR SIZE="6">
+<A NAME="SEC5"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC4"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC6"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC6"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.4 <CODE>asin</CODE>, <CODE>asinf</CODE>---arc sine </H2>
+<!--docid::SEC5::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double asin(double <VAR>x</VAR>);
+float asinf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<P>
+
+<CODE>asin</CODE> computes the inverse sine (arc sine) of the argument <VAR>x</VAR>.
+Arguments to <CODE>asin</CODE> must be in the range -1 to 1.
+</P><P>
+
+<CODE>asinf</CODE> is identical to <CODE>asin</CODE>, other than taking and
+returning floats.
+</P><P>
+
+You can modify error handling for these routines using <CODE>matherr</CODE>. 
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+<CODE>asin</CODE> returns values in radians, in the range of -pi/2 to pi/2.
+</P><P>
+
+If <VAR>x</VAR> is not in the range -1 to 1, <CODE>asin</CODE> and <CODE>asinf</CODE>
+return NaN (not a number), set the global variable <CODE>errno</CODE> to
+<CODE>EDOM</CODE>, and issue a <CODE>DOMAIN error</CODE> message.
+</P><P>
+
+You can change this error treatment using <CODE>matherr</CODE>.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="asinh"></A>
+<HR SIZE="6">
+<A NAME="SEC6"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC5"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC7"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC7"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.5 <CODE>asinh</CODE>, <CODE>asinhf</CODE>---inverse hyperbolic sine </H2>
+<!--docid::SEC6::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double asinh(double <VAR>x</VAR>);
+float asinhf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>asinh</CODE> calculates the inverse hyperbolic sine of <VAR>x</VAR>.
+<CODE>asinh</CODE> is defined as 
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre> sgn(<VAR>x</VAR>) * log(abs(<VAR>x</VAR>) + sqrt(1+<VAR>x</VAR>*<VAR>x</VAR>))
+</FONT></pre></td></tr></table><P>
+
+<CODE>asinhf</CODE> is identical, other than taking and returning floats.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+<CODE>asinh</CODE> and <CODE>asinhf</CODE> return the calculated value.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+Neither <CODE>asinh</CODE> nor <CODE>asinhf</CODE> are ANSI C.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="atan"></A>
+<HR SIZE="6">
+<A NAME="SEC7"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC6"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC8"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC8"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.6 <CODE>atan</CODE>, <CODE>atanf</CODE>---arc tangent </H2>
+<!--docid::SEC7::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double atan(double <VAR>x</VAR>);
+float atanf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<P>
+
+<CODE>atan</CODE> computes the inverse tangent (arc tangent) of the input value.
+</P><P>
+
+<CODE>atanf</CODE> is identical to <CODE>atan</CODE>, save that it operates on <CODE>floats</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+<CODE>atan</CODE> returns a value in radians, in the range of -pi/2 to pi/2.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>atan</CODE> is ANSI C.  <CODE>atanf</CODE> is an extension.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="atan2"></A>
+<HR SIZE="6">
+<A NAME="SEC8"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC7"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC9"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC9"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.7 <CODE>atan2</CODE>, <CODE>atan2f</CODE>---arc tangent of y/x </H2>
+<!--docid::SEC8::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double atan2(double <VAR>y</VAR>,double <VAR>x</VAR>);
+float atan2f(float <VAR>y</VAR>,float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<P>
+
+<CODE>atan2</CODE> computes the inverse tangent (arc tangent) of <VAR>y</VAR>/<VAR>x</VAR>. 
+<CODE>atan2</CODE> produces the correct result even for angles near 
+pi/2 or -pi/2 
+(that is, when <VAR>x</VAR> is near 0). 
+</P><P>
+
+<CODE>atan2f</CODE> is identical to <CODE>atan2</CODE>, save that it takes and returns
+<CODE>float</CODE>. 
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+<CODE>atan2</CODE> and <CODE>atan2f</CODE> return a value in radians, in the range of 
+-pi to pi.
+</P><P>
+
+If both <VAR>x</VAR> and <VAR>y</VAR> are 0.0, <CODE>atan2</CODE> causes a <CODE>DOMAIN</CODE> error.
+</P><P>
+
+You can modify error handling for these functions using <CODE>matherr</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>atan2</CODE> is ANSI C.  <CODE>atan2f</CODE> is an extension.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="atanh"></A>
+<HR SIZE="6">
+<A NAME="SEC9"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC8"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC10"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC10"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.8 <CODE>atanh</CODE>, <CODE>atanhf</CODE>---inverse hyperbolic tangent </H2>
+<!--docid::SEC9::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double atanh(double <VAR>x</VAR>);
+float atanhf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>atanh</CODE> calculates the inverse hyperbolic tangent of <VAR>x</VAR>.
+<P>
+
+<CODE>atanhf</CODE> is identical, other than taking and returning
+<CODE>float</CODE> values.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+<CODE>atanh</CODE> and <CODE>atanhf</CODE> return the calculated value.
+</P><P>
+
+If 
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre><VAR>x</VAR>|
+</FONT></pre></td></tr></table>is greater than 1, the global <CODE>errno</CODE> is set to <CODE>EDOM</CODE> and
+the result is a NaN.  A <CODE>DOMAIN error</CODE> is reported.
+</P><P>
+
+If 
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre><VAR>x</VAR>|
+</FONT></pre></td></tr></table>is 1, the global <CODE>errno</CODE> is set to <CODE>EDOM</CODE>; and the result is 
+infinity with the same sign as <CODE>x</CODE>.  A <CODE>SING error</CODE> is reported.
+</P><P>
+
+You can modify the error handling for these routines using
+<CODE>matherr</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+Neither <CODE>atanh</CODE> nor <CODE>atanhf</CODE> are ANSI C.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="jN"></A>
+<HR SIZE="6">
+<A NAME="SEC10"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC9"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC11"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[ &lt;&lt; ]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.9 <CODE>jN</CODE>,<CODE>jNf</CODE>,<CODE>yN</CODE>,<CODE>yNf</CODE>---Bessel functions </H2>
+<!--docid::SEC10::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double j0(double <VAR>x</VAR>);
+float j0f(float <VAR>x</VAR>);
+double j1(double <VAR>x</VAR>);
+float j1f(float <VAR>x</VAR>);
+double jn(int <VAR>n</VAR>, double <VAR>x</VAR>);
+float jnf(int <VAR>n</VAR>, float <VAR>x</VAR>);
+double y0(double <VAR>x</VAR>);
+float y0f(float <VAR>x</VAR>);
+double y1(double <VAR>x</VAR>);
+float y1f(float <VAR>x</VAR>);
+double yn(int <VAR>n</VAR>, double <VAR>x</VAR>);
+float ynf(int <VAR>n</VAR>, float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+The Bessel functions are a family of functions that solve the
+differential equation 
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>  2               2    2
+ x  y'' + xy' + (x  - p )y  = 0
+</FONT></pre></td></tr></table>These functions have many applications in engineering and physics.
+<P>
+
+<CODE>jn</CODE> calculates the Bessel function of the first kind of order
+<VAR>n</VAR>.  <CODE>j0</CODE> and <CODE>j1</CODE> are special cases for order 0 and order
+1 respectively.
+</P><P>
+
+Similarly, <CODE>yn</CODE> calculates the Bessel function of the second kind of
+order <VAR>n</VAR>, and <CODE>y0</CODE> and <CODE>y1</CODE> are special cases for order 0 and
+1.
+</P><P>
+
+<CODE>jnf</CODE>, <CODE>j0f</CODE>, <CODE>j1f</CODE>, <CODE>ynf</CODE>, <CODE>y0f</CODE>, and <CODE>y1f</CODE> perform the
+same calculations, but on <CODE>float</CODE> rather than <CODE>double</CODE> values.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+The value of each Bessel function at <VAR>x</VAR> is returned.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+None of the Bessel functions are in ANSI C.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="cosh"></A>
+<HR SIZE="6">
+<A NAME="SEC11"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC10"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC12"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC3"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.10 <CODE>cosh</CODE>, <CODE>coshf</CODE>---hyperbolic cosine </H2>
+<!--docid::SEC11::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double cosh(double <VAR>x</VAR>);
+float coshf(float <VAR>x</VAR>)
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<P>
+
+<CODE>cosh</CODE> computes the hyperbolic cosine of the argument <VAR>x</VAR>.
+<CODE>cosh(<VAR>x</VAR>)</CODE> is defined as 
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre> (exp(x) + exp(-x))/2
+</FONT></pre></td></tr></table></P><P>
+
+Angles are specified in radians.  
+<CODE>coshf</CODE> is identical, save that it takes and returns <CODE>float</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+The computed value is returned.  When the correct value would create
+an overflow,  <CODE>cosh</CODE> returns the value <CODE>HUGE_VAL</CODE> with the
+appropriate sign, and the global value <CODE>errno</CODE> is set to <CODE>ERANGE</CODE>.
+</P><P>
+
+You can modify error handling for these functions using the
+function <CODE>matherr</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>cosh</CODE> is ANSI.  
+<CODE>coshf</CODE> is an extension.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="erf"></A>
+<HR SIZE="6">
+<A NAME="SEC12"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC11"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC13"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC3"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.11 <CODE>erf</CODE>, <CODE>erff</CODE>, <CODE>erfc</CODE>, <CODE>erfcf</CODE>---error function </H2>
+<!--docid::SEC12::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double erf(double <VAR>x</VAR>);
+float erff(float <VAR>x</VAR>);
+double erfc(double <VAR>x</VAR>);
+float erfcf(float <VAR>x</VAR>);
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>erf</CODE> calculates an approximation to the "error function",
+which estimates the probability that an observation will fall within
+<VAR>x</VAR> standard deviations of the mean (assuming a normal
+distribution).
+<P>
+
+<CODE>erfc</CODE> calculates the complementary probability; that is,
+<CODE>erfc(<VAR>x</VAR>)</CODE> is <CODE>1 - erf(<VAR>x</VAR>)</CODE>.  <CODE>erfc</CODE> is computed directly,
+so that you can use it to avoid the loss of precision that would
+result from subtracting large probabilities (on large <VAR>x</VAR>) from 1.
+</P><P>
+
+<CODE>erff</CODE> and <CODE>erfcf</CODE> differ from <CODE>erf</CODE> and <CODE>erfc</CODE> only in the
+argument and result types.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+For positive arguments, <CODE>erf</CODE> and all its variants return a
+probability--a number between 0 and 1.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+None of the variants of <CODE>erf</CODE> are ANSI C.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="exp"></A>
+<HR SIZE="6">
+<A NAME="SEC13"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC12"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC14"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC3"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.12 <CODE>exp</CODE>, <CODE>expf</CODE>---exponential </H2>
+<!--docid::SEC13::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double exp(double <VAR>x</VAR>);
+float expf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>exp</CODE> and <CODE>expf</CODE> calculate the exponential of <VAR>x</VAR>, that is, 
+e raised to the power <VAR>x</VAR> (where e
+is the base of the natural system of logarithms, approximately 2.71828).
+<P>
+
+You can use the (non-ANSI) function <CODE>matherr</CODE> to specify
+error handling for these functions.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+On success, <CODE>exp</CODE> and <CODE>expf</CODE> return the calculated value.
+If the result underflows, the returned value is <CODE>0</CODE>.  If the
+result overflows, the returned value is <CODE>HUGE_VAL</CODE>.  In
+either case, <CODE>errno</CODE> is set to <CODE>ERANGE</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>exp</CODE> is ANSI C.  <CODE>expf</CODE> is an extension.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="fabs"></A>
+<HR SIZE="6">
+<A NAME="SEC14"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC13"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC15"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC3"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.13 <CODE>fabs</CODE>, <CODE>fabsf</CODE>---absolute value (magnitude) </H2>
+<!--docid::SEC14::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double fabs(double <VAR>x</VAR>);
+float fabsf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>fabs</CODE> and <CODE>fabsf</CODE> calculate 
+the absolute value (magnitude) of the argument <VAR>x</VAR>, by direct
+manipulation of the bit representation of <VAR>x</VAR>.
+<P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+The calculated value is returned.  No errors are detected.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>fabs</CODE> is ANSI.
+<CODE>fabsf</CODE> is an extension.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="floor"></A>
+<HR SIZE="6">
+<A NAME="SEC15"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC14"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC16"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC3"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.14 <CODE>floor</CODE>, <CODE>floorf</CODE>, <CODE>ceil</CODE>, <CODE>ceilf</CODE>---floor and ceiling </H2>
+<!--docid::SEC15::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double floor(double <VAR>x</VAR>);
+float floorf(float <VAR>x</VAR>);
+double ceil(double <VAR>x</VAR>);
+float ceilf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>floor</CODE> and <CODE>floorf</CODE> find 
+the nearest integer less than or equal to <VAR>x</VAR>.
+<CODE>ceil</CODE> and <CODE>ceilf</CODE> find 
+the nearest integer greater than or equal to <VAR>x</VAR>.
+<P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+<CODE>floor</CODE> and <CODE>ceil</CODE> return the integer result as a double.
+<CODE>floorf</CODE> and <CODE>ceilf</CODE> return the integer result as a float.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>floor</CODE> and <CODE>ceil</CODE> are ANSI.
+<CODE>floorf</CODE> and <CODE>ceilf</CODE> are extensions.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="fmod"></A>
+<HR SIZE="6">
+<A NAME="SEC16"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC15"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC17"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC3"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.15 <CODE>fmod</CODE>, <CODE>fmodf</CODE>---floating-point remainder (modulo) </H2>
+<!--docid::SEC16::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double fmod(double <VAR>x</VAR>, double <VAR>y</VAR>)
+float fmodf(float <VAR>x</VAR>, float <VAR>y</VAR>)
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+The <CODE>fmod</CODE> and <CODE>fmodf</CODE> functions compute the floating-point
+remainder of <VAR>x</VAR>/<VAR>y</VAR> (<VAR>x</VAR> modulo <VAR>y</VAR>).
+<P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+The <CODE>fmod</CODE> function returns the value 
+<VAR>x</VAR>-<VAR>i</VAR>*<VAR>y</VAR>, 
+for the largest integer <VAR>i</VAR> such that, if <VAR>y</VAR> is nonzero, the
+result has the same sign as <VAR>x</VAR> and magnitude less than the
+magnitude of <VAR>y</VAR>. 
+</P><P>
+
+<CODE>fmod(<VAR>x</VAR>,0)</CODE> returns NaN, and sets <CODE>errno</CODE> to <CODE>EDOM</CODE>.
+</P><P>
+
+You can modify error treatment for these functions using <CODE>matherr</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>fmod</CODE> is ANSI C. <CODE>fmodf</CODE> is an extension.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="frexp"></A>
+<HR SIZE="6">
+<A NAME="SEC17"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC16"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC18"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC3"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.16 <CODE>frexp</CODE>, <CODE>frexpf</CODE>---split floating-point number </H2>
+<!--docid::SEC17::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double frexp(double <VAR>val</VAR>, int *<VAR>exp</VAR>);
+float frexpf(float <VAR>val</VAR>, int *<VAR>exp</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+All nonzero, normal numbers can be described as <VAR>m</VAR> * 2**<VAR>p</VAR>.
+<CODE>frexp</CODE> represents the double <VAR>val</VAR> as a mantissa <VAR>m</VAR>
+and a power of two <VAR>p</VAR>. The resulting mantissa will always
+be greater than or equal to <CODE>0.5</CODE>, and less than <CODE>1.0</CODE> (as
+long as <VAR>val</VAR> is nonzero). The power of two will be stored
+in <CODE>*</CODE><VAR>exp</VAR>. 
+<P>
+
+<VAR>m</VAR> and <VAR>p</VAR> are calculated so that
+<VAR>val</VAR> is <VAR>m</VAR> times <CODE>2</CODE> to the power <VAR>p</VAR>.
+</P><P>
+
+<CODE>frexpf</CODE> is identical, other than taking and returning
+floats rather than doubles.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+<CODE>frexp</CODE> returns the mantissa <VAR>m</VAR>. If <VAR>val</VAR> is <CODE>0</CODE>, infinity,
+or Nan, <CODE>frexp</CODE> will set <CODE>*</CODE><VAR>exp</VAR> to <CODE>0</CODE> and return <VAR>val</VAR>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>frexp</CODE> is ANSI.
+<CODE>frexpf</CODE> is an extension.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="gamma"></A>
+<HR SIZE="6">
+<A NAME="SEC18"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC17"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC19"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC3"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.17 <CODE>gamma</CODE>, <CODE>gammaf</CODE>, <CODE>lgamma</CODE>, <CODE>lgammaf</CODE>, <CODE>gamma_r</CODE>, </H2>
+<!--docid::SEC18::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double gamma(double <VAR>x</VAR>);
+float gammaf(float <VAR>x</VAR>);
+double lgamma(double <VAR>x</VAR>);
+float lgammaf(float <VAR>x</VAR>);
+double gamma_r(double <VAR>x</VAR>, int *<VAR>signgamp</VAR>);
+float gammaf_r(float <VAR>x</VAR>, int *<VAR>signgamp</VAR>);
+double lgamma_r(double <VAR>x</VAR>, int *<VAR>signgamp</VAR>);
+float lgammaf_r(float <VAR>x</VAR>, int *<VAR>signgamp</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>gamma</CODE> calculates 
+the natural logarithm of the gamma function of <VAR>x</VAR>.  The gamma function
+(<CODE>exp(gamma(<VAR>x</VAR>))</CODE>) is a generalization of factorial, and retains
+the property that  
+<CODE>exp(gamma(N))</CODE> is equivalent to <CODE>N*exp(gamma(N-1))</CODE>.
+Accordingly, the results of the gamma function itself grow very
+quickly.  <CODE>gamma</CODE> is defined as 
+the natural log of the gamma function, rather than the gamma function
+itself, 
+to extend the useful range of results representable.
+<P>
+
+The sign of the result is returned in the global variable <CODE>signgam</CODE>,
+which is declared in math.h.
+</P><P>
+
+<CODE>gammaf</CODE> performs the same calculation as <CODE>gamma</CODE>, but uses and
+returns <CODE>float</CODE> values.
+</P><P>
+
+<CODE>lgamma</CODE> and <CODE>lgammaf</CODE> are alternate names for <CODE>gamma</CODE> and
+<CODE>gammaf</CODE>.  The use of <CODE>lgamma</CODE> instead of <CODE>gamma</CODE> is a reminder
+that these functions compute the log of the gamma function, rather
+than the gamma function itself.
+</P><P>
+
+The functions <CODE>gamma_r</CODE>, <CODE>gammaf_r</CODE>, <CODE>lgamma_r</CODE>, and
+<CODE>lgammaf_r</CODE> are just like <CODE>gamma</CODE>, <CODE>gammaf</CODE>, <CODE>lgamma</CODE>, and
+<CODE>lgammaf</CODE>, respectively, but take an additional argument.  This
+additional argument is a pointer to an integer.  This additional
+argument is used to return the sign of the result, and the global
+variable <CODE>signgam</CODE> is not used.  These functions may be used for
+reentrant calls (but they will still set the global variable <CODE>errno</CODE>
+if an error occurs).
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+Normally, the computed result is returned.  
+</P><P>
+
+When <VAR>x</VAR> is a nonpositive integer, <CODE>gamma</CODE> returns <CODE>HUGE_VAL</CODE>
+and <CODE>errno</CODE> is set to <CODE>EDOM</CODE>.  If the result overflows, <CODE>gamma</CODE>
+returns <CODE>HUGE_VAL</CODE> and <CODE>errno</CODE> is set to <CODE>ERANGE</CODE>.
+</P><P>
+
+You can modify this error treatment using <CODE>matherr</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+Neither <CODE>gamma</CODE> nor <CODE>gammaf</CODE> is ANSI C.  
+<BR>
+</P><P>
+
+<A NAME="hypot"></A>
+<HR SIZE="6">
+<A NAME="SEC19"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC18"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC20"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC3"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.18 <CODE>hypot</CODE>, <CODE>hypotf</CODE>---distance from origin </H2>
+<!--docid::SEC19::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double hypot(double <VAR>x</VAR>, double <VAR>y</VAR>);
+float hypotf(float <VAR>x</VAR>, float <VAR>y</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>hypot</CODE> calculates the Euclidean distance
+<CODE>sqrt(<VAR>x</VAR>*<VAR>x</VAR> + <VAR>y</VAR>*<VAR>y</VAR>)</CODE>
+between the origin (0,0) and a point represented by the
+Cartesian coordinates (<VAR>x</VAR>,<VAR>y</VAR>).  <CODE>hypotf</CODE> differs only
+in the type of its arguments and result.
+<P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+Normally, the distance value is returned.  On overflow,
+<CODE>hypot</CODE> returns <CODE>HUGE_VAL</CODE> and sets <CODE>errno</CODE> to
+<CODE>ERANGE</CODE>.
+</P><P>
+
+You can change the error treatment with <CODE>matherr</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>hypot</CODE> and <CODE>hypotf</CODE> are not ANSI C.  
+<BR>
+</P><P>
+
+<A NAME="isnan"></A>
+<HR SIZE="6">
+<A NAME="SEC20"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC19"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC21"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC3"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.19 <CODE>isnan</CODE>,<CODE>isnanf</CODE>,<CODE>isinf</CODE>,<CODE>isinff</CODE>,<CODE>finite</CODE>,<CODE>finitef</CODE>---test for exceptional numbers </H2>
+<!--docid::SEC20::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;ieeefp.h&#62;
+int isnan(double <VAR>arg</VAR>);
+int isinf(double <VAR>arg</VAR>);
+int finite(double <VAR>arg</VAR>);
+int isnanf(float <VAR>arg</VAR>);
+int isinff(float <VAR>arg</VAR>);
+int finitef(float <VAR>arg</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+These functions provide information on the floating-point
+argument supplied.
+<P>
+
+There are five major number formats - 
+<DL COMPACT>
+
+<DT><CODE>zero</CODE>
+<DD>a number which contains all zero bits.
+<DT><CODE>subnormal</CODE>
+<DD>Is used to represent  number with a zero exponent, but a nonzero fraction.
+<DT><CODE>normal</CODE>
+<DD>A number with an exponent, and a fraction
+<DT><CODE>infinity</CODE>
+<DD>A number with an all 1's exponent and a zero fraction.
+<DT><CODE>NAN</CODE>
+<DD>A number with an all 1's exponent and a nonzero fraction.
+<P>
+
+</DL>
+<P>
+
+<CODE>isnan</CODE> returns 1 if the argument is a nan. <CODE>isinf</CODE>
+returns 1 if the argument is infinity.  <CODE>finite</CODE> returns 1 if the
+argument is zero, subnormal or normal.
+The <CODE>isnanf</CODE>, <CODE>isinff</CODE> and <CODE>finitef</CODE> perform the same
+operations as their <CODE>isnan</CODE>, <CODE>isinf</CODE> and <CODE>finite</CODE>
+counterparts, but on single-precision floating-point numbers.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="ldexp"></A>
+<HR SIZE="6">
+<A NAME="SEC21"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC20"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC22"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC4"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.20 <CODE>ldexp</CODE>, <CODE>ldexpf</CODE>---load exponent </H2>
+<!--docid::SEC21::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double ldexp(double <VAR>val</VAR>, int <VAR>exp</VAR>);
+float ldexpf(float <VAR>val</VAR>, int <VAR>exp</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>ldexp</CODE> calculates the value 
+<VAR>val</VAR> times 2 to the power <VAR>exp</VAR>.
+<CODE>ldexpf</CODE> is identical, save that it takes and returns <CODE>float</CODE>
+rather than <CODE>double</CODE> values.
+<P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+<CODE>ldexp</CODE> returns the calculated value.
+</P><P>
+
+Underflow and overflow both set <CODE>errno</CODE> to <CODE>ERANGE</CODE>.
+On underflow, <CODE>ldexp</CODE> and <CODE>ldexpf</CODE> return 0.0.
+On overflow, <CODE>ldexp</CODE> returns plus or minus <CODE>HUGE_VAL</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>ldexp</CODE> is ANSI, <CODE>ldexpf</CODE> is an extension.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="log"></A>
+<HR SIZE="6">
+<A NAME="SEC22"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC21"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC23"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC4"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.21 <CODE>log</CODE>, <CODE>logf</CODE>---natural logarithms </H2>
+<!--docid::SEC22::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double log(double <VAR>x</VAR>);
+float logf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+Return the natural logarithm of <VAR>x</VAR>, that is, its logarithm base e
+(where e is the base of the natural system of logarithms, 2.71828<small>...</small>).
+<CODE>log</CODE> and <CODE>logf</CODE> are identical save for the return and argument types.
+<P>
+
+You can use the (non-ANSI) function <CODE>matherr</CODE> to specify error
+handling for these functions. 
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+Normally, returns the calculated value.  When <VAR>x</VAR> is zero, the
+returned value is <CODE>-HUGE_VAL</CODE> and <CODE>errno</CODE> is set to <CODE>ERANGE</CODE>.
+When <VAR>x</VAR> is negative, the returned value is <CODE>-HUGE_VAL</CODE> and
+<CODE>errno</CODE> is set to <CODE>EDOM</CODE>.  You can control the error behavior via
+<CODE>matherr</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>log</CODE> is ANSI, <CODE>logf</CODE> is an extension.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="log10"></A>
+<HR SIZE="6">
+<A NAME="SEC23"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC22"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC24"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC4"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.22 <CODE>log10</CODE>, <CODE>log10f</CODE>---base 10 logarithms </H2>
+<!--docid::SEC23::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double log10(double <VAR>x</VAR>);
+float log10f(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>log10</CODE> returns the base 10 logarithm of <VAR>x</VAR>.
+It is implemented as <CODE>log(<VAR>x</VAR>) / log(10)</CODE>.
+<P>
+
+<CODE>log10f</CODE> is identical, save that it takes and returns <CODE>float</CODE> values.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+<CODE>log10</CODE> and <CODE>log10f</CODE> return the calculated value. 
+</P><P>
+
+See the description of <CODE>log</CODE> for information on errors.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>log10</CODE> is ANSI C.  <CODE>log10f</CODE> is an extension.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="pow"></A>
+<HR SIZE="6">
+<A NAME="SEC24"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC23"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC25"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC4"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.23 <CODE>pow</CODE>, <CODE>powf</CODE>---x to the power y </H2>
+<!--docid::SEC24::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double pow(double <VAR>x</VAR>, double <VAR>y</VAR>);
+float pow(float <VAR>x</VAR>, float <VAR>y</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>pow</CODE> and <CODE>powf</CODE> calculate <VAR>x</VAR> raised to the exponent <VAR>y</VAR>.
+<P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+On success, <CODE>pow</CODE> and <CODE>powf</CODE> return the value calculated.
+</P><P>
+
+When the argument values would produce overflow, <CODE>pow</CODE>
+returns <CODE>HUGE_VAL</CODE> and set <CODE>errno</CODE> to <CODE>ERANGE</CODE>.  If the
+argument <VAR>x</VAR> passed to <CODE>pow</CODE> or <CODE>powf</CODE> is a negative
+noninteger, and <VAR>y</VAR> is also not an integer, then <CODE>errno</CODE>
+is set to <CODE>EDOM</CODE>.  If <VAR>x</VAR> and <VAR>y</VAR> are both 0, then
+<CODE>pow</CODE> and <CODE>powf</CODE> return <CODE>1</CODE>.
+</P><P>
+
+You can modify error handling for these functions using <CODE>matherr</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>pow</CODE> is ANSI C. <CODE>powf</CODE> is an extension.  
+<BR>
+</P><P>
+
+<A NAME="remainder"></A>
+<HR SIZE="6">
+<A NAME="SEC25"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC24"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC26"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC4"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.24 <CODE>remainder</CODE>, <CODE>remainderf</CODE>---round and remainder </H2>
+<!--docid::SEC25::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double remainder(double <VAR>x</VAR>, double <VAR>y</VAR>);
+float remainderf(float <VAR>x</VAR>, float <VAR>y</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>remainder</CODE> and <CODE>remainderf</CODE> find the remainder of
+<VAR>x</VAR>/<VAR>y</VAR>; this value is in the range -<VAR>y</VAR>/2 .. +<VAR>y</VAR>/2.
+<P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+<CODE>remainder</CODE> returns the integer result as a double.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>remainder</CODE> is a System V release 4.
+<CODE>remainderf</CODE> is an extension.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="sqrt"></A>
+<HR SIZE="6">
+<A NAME="SEC26"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC25"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC27"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC4"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.25 <CODE>sqrt</CODE>, <CODE>sqrtf</CODE>---positive square root </H2>
+<!--docid::SEC26::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double sqrt(double <VAR>x</VAR>);
+float  sqrtf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>sqrt</CODE> computes the positive square root of the argument.
+You can modify error handling for this function with
+<CODE>matherr</CODE>.
+<P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+On success, the square root is returned. If <VAR>x</VAR> is real and
+positive, then the result is positive.  If <VAR>x</VAR> is real and
+negative, the global value <CODE>errno</CODE> is set to <CODE>EDOM</CODE> (domain error).
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>sqrt</CODE> is ANSI C.  <CODE>sqrtf</CODE> is an extension.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="sin"></A>
+<HR SIZE="6">
+<A NAME="SEC27"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC26"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC28"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC4"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.26 <CODE>sin</CODE>, <CODE>sinf</CODE>, <CODE>cos</CODE>, <CODE>cosf</CODE>---sine or cosine </H2>
+<!--docid::SEC27::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double sin(double <VAR>x</VAR>);
+float  sinf(float <VAR>x</VAR>);
+double cos(double <VAR>x</VAR>);
+float cosf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>sin</CODE> and <CODE>cos</CODE> compute (respectively) the sine and cosine
+of the argument <VAR>x</VAR>.  Angles are specified in radians. 
+<P>
+
+<CODE>sinf</CODE> and <CODE>cosf</CODE> are identical, save that they take and
+return <CODE>float</CODE> values. 
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+The sine or cosine of <VAR>x</VAR> is returned.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>sin</CODE> and <CODE>cos</CODE> are ANSI C. 
+<CODE>sinf</CODE> and <CODE>cosf</CODE> are extensions.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="sinh"></A>
+<HR SIZE="6">
+<A NAME="SEC28"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC27"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC29"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC4"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.27 <CODE>sinh</CODE>, <CODE>sinhf</CODE>---hyperbolic sine </H2>
+<!--docid::SEC28::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double sinh(double <VAR>x</VAR>);
+float  sinhf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>sinh</CODE> computes the hyperbolic sine of the argument <VAR>x</VAR>.
+Angles are specified in radians.   <CODE>sinh</CODE>(<VAR>x</VAR>) is defined as 
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre> (exp(<VAR>x</VAR>) - exp(-<VAR>x</VAR>))/2
+</FONT></pre></td></tr></table><P>
+
+<CODE>sinhf</CODE> is identical, save that it takes and returns <CODE>float</CODE> values.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+The hyperbolic sine of <VAR>x</VAR> is returned.  
+</P><P>
+
+When the correct result is too large to be representable (an
+overflow),  <CODE>sinh</CODE> returns <CODE>HUGE_VAL</CODE> with the
+appropriate sign, and sets the global value <CODE>errno</CODE> to
+<CODE>ERANGE</CODE>. 
+</P><P>
+
+You can modify error handling for these functions with <CODE>matherr</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>sinh</CODE> is ANSI C.  
+<CODE>sinhf</CODE> is an extension.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="tan"></A>
+<HR SIZE="6">
+<A NAME="SEC29"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC28"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC30"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC4"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.28 <CODE>tan</CODE>, <CODE>tanf</CODE>---tangent </H2>
+<!--docid::SEC29::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double tan(double <VAR>x</VAR>);
+float tanf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>tan</CODE> computes the tangent of the argument <VAR>x</VAR>.  
+Angles are specified in radians.  
+<P>
+
+<CODE>tanf</CODE> is identical, save that it takes and returns <CODE>float</CODE> values.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+The tangent of <VAR>x</VAR> is returned. 
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>tan</CODE> is ANSI. <CODE>tanf</CODE> is an extension.
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="tanh"></A>
+<HR SIZE="6">
+<A NAME="SEC30"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC29"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC31"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC4"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.29 <CODE>tanh</CODE>, <CODE>tanhf</CODE>---hyperbolic tangent </H2>
+<!--docid::SEC30::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double tanh(double <VAR>x</VAR>);
+float tanhf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<P>
+
+<CODE>tanh</CODE> computes the hyperbolic tangent of
+the argument <VAR>x</VAR>.  Angles are specified in radians.  
+</P><P>
+
+<CODE>tanh(<VAR>x</VAR>)</CODE> is defined as 
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre> sinh(<VAR>x</VAR>)/cosh(<VAR>x</VAR>)
+</FONT></pre></td></tr></table><CODE>tanhf</CODE> is identical, save that it takes and returns <CODE>float</CODE> values.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+The hyperbolic tangent of <VAR>x</VAR> is returned.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>tanh</CODE> is ANSI C.  <CODE>tanhf</CODE> is an extension.
+</P><P>
+
+<BR>
+<A NAME="cbrt"></A>
+<HR SIZE="6">
+<A NAME="SEC31"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC30"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC32"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC5"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.30 <CODE>cbrt</CODE>, <CODE>cbrtf</CODE>---cube root </H2>
+<!--docid::SEC31::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double cbrt(double <VAR>x</VAR>);
+float  cbrtf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>cbrt</CODE> computes the cube root of the argument.
+<P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+The cube root is returned. 
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>cbrt</CODE> is in System V release 4.  <CODE>cbrtf</CODE> is an extension.
+</P><P>
+
+<BR>
+<A NAME="copysign"></A>
+<HR SIZE="6">
+<A NAME="SEC32"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC31"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC33"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC5"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.31 <CODE>copysign</CODE>, <CODE>copysignf</CODE>---sign of <VAR>y</VAR>, magnitude of <VAR>x</VAR> </H2>
+<!--docid::SEC32::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double copysign (double <VAR>x</VAR>, double <VAR>y</VAR>);
+float copysignf (float <VAR>x</VAR>, float <VAR>y</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>copysign</CODE> constructs a number with the magnitude (absolute value)
+of its first argument, <VAR>x</VAR>, and the sign of its second argument,
+<VAR>y</VAR>.
+<P>
+
+<CODE>copysignf</CODE> does the same thing; the two functions differ only in
+the type of their arguments and result.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+<CODE>copysign</CODE> returns a <CODE>double</CODE> with the magnitude of
+<VAR>x</VAR> and the sign of <VAR>y</VAR>.
+<CODE>copysignf</CODE> returns a <CODE>float</CODE> with the magnitude of
+<VAR>x</VAR> and the sign of <VAR>y</VAR>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>copysign</CODE> is not required by either ANSI C or the System V Interface
+Definition (Issue 2).
+</P><P>
+
+<BR>
+<A NAME="expm1"></A>
+<HR SIZE="6">
+<A NAME="SEC33"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC32"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC34"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC5"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.32 <CODE>expm1</CODE>, <CODE>expm1f</CODE>---exponential minus 1 </H2>
+<!--docid::SEC33::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double expm1(double <VAR>x</VAR>);
+float expm1f(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>expm1</CODE> and <CODE>expm1f</CODE> calculate the exponential of <VAR>x</VAR>
+and subtract 1, that is,
+e raised to the power <VAR>x</VAR> minus 1 (where e
+is the base of the natural system of logarithms, approximately
+2.71828).  The result is accurate even for small values of
+<VAR>x</VAR>, where using <CODE>exp(<VAR>x</VAR>)-1</CODE> would lose many
+significant digits.
+<P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+e raised to the power <VAR>x</VAR>, minus 1.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+Neither <CODE>expm1</CODE> nor <CODE>expm1f</CODE> is required by ANSI C or by
+the System V Interface Definition (Issue 2).
+</P><P>
+
+<BR>
+<A NAME="ilogb"></A>
+<HR SIZE="6">
+<A NAME="SEC34"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC33"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC35"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC5"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.33 <CODE>ilogb</CODE>, <CODE>ilogbf</CODE>---get exponent of floating-point number </H2>
+<!--docid::SEC34::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+int ilogb(double <VAR>val</VAR>);
+int ilogbf(float <VAR>val</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<P>
+
+All nonzero, normal numbers can be described as <VAR>m</VAR> *
+2**<VAR>p</VAR>.  <CODE>ilogb</CODE> and <CODE>ilogbf</CODE> examine the argument
+<VAR>val</VAR>, and return <VAR>p</VAR>.  The functions <CODE>frexp</CODE> and
+<CODE>frexpf</CODE> are similar to <CODE>ilogb</CODE> and <CODE>ilogbf</CODE>, but also
+return <VAR>m</VAR>.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+</P><P>
+
+<CODE>ilogb</CODE> and <CODE>ilogbf</CODE> return the power of two used to form the
+floating-point argument.  If <VAR>val</VAR> is <CODE>0</CODE>, they return <CODE>-
+INT_MAX</CODE> (<CODE>INT_MAX</CODE> is defined in limits.h).  If <VAR>val</VAR> is
+infinite, or NaN, they return <CODE>INT_MAX</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+Neither <CODE>ilogb</CODE> nor <CODE>ilogbf</CODE> is required by ANSI C or by
+the System V Interface Definition (Issue 2).  
+<BR>
+<A NAME="infinity"></A>
+<HR SIZE="6">
+<A NAME="SEC35"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC34"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC36"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC5"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.34 <CODE>infinity</CODE>, <CODE>infinityf</CODE>---representation of infinity </H2>
+<!--docid::SEC35::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double infinity(void);
+float infinityf(void);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>infinity</CODE> and <CODE>infinityf</CODE> return the special number IEEE
+infinity in double- and single-precision arithmetic
+respectively.
+<P>
+
+<BR>
+<A NAME="log1p"></A>
+<HR SIZE="6">
+<A NAME="SEC36"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC35"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC37"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC5"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.35 <CODE>log1p</CODE>, <CODE>log1pf</CODE>---log of <CODE>1 + <VAR>x</VAR></CODE> </H2>
+<!--docid::SEC36::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double log1p(double <VAR>x</VAR>);
+float log1pf(float <VAR>x</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>log1p</CODE> calculates 
+the natural logarithm of <CODE>1+<VAR>x</VAR></CODE>.  You can use <CODE>log1p</CODE> rather
+than `<CODE>log(1+<VAR>x</VAR>)</CODE>' for greater precision when <VAR>x</VAR> is very
+small.
+<P>
+
+<CODE>log1pf</CODE> calculates the same thing, but accepts and returns
+<CODE>float</CODE> values rather than <CODE>double</CODE>.
+</P><P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+<CODE>log1p</CODE> returns a <CODE>double</CODE>, the natural log of <CODE>1+<VAR>x</VAR></CODE>.
+<CODE>log1pf</CODE> returns a <CODE>float</CODE>, the natural log of <CODE>1+<VAR>x</VAR></CODE>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+Neither <CODE>log1p</CODE> nor <CODE>log1pf</CODE> is required by ANSI C or by the System V
+Interface Definition (Issue 2).
+</P><P>
+
+<BR>
+<A NAME="matherr"></A>
+<HR SIZE="6">
+<A NAME="SEC37"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC36"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC38"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC5"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.36 <CODE>matherr</CODE>---modifiable math error handler </H2>
+<!--docid::SEC37::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+int matherr(struct exception *<VAR>e</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>matherr</CODE> is called whenever a math library function generates an error.
+You can replace <CODE>matherr</CODE> by your own subroutine to customize
+error treatment.  The customized <CODE>matherr</CODE> must return 0 if
+it fails to resolve the error, and non-zero if the error is resolved.
+<P>
+
+When <CODE>matherr</CODE> returns a nonzero value, no error message is printed
+and the value of <CODE>errno</CODE> is not modified.  You can accomplish either
+or both of these things in your own <CODE>matherr</CODE> using the information
+passed in the structure <CODE>*<VAR>e</VAR></CODE>.
+</P><P>
+
+This is the <CODE>exception</CODE> structure (defined in `<CODE>math.h</CODE>'):
+<TABLE><tr><td>&nbsp;</td><td class=smallexample><FONT SIZE=-1><pre>	struct exception {
+	        int type;
+	        char *name;
+	        double arg1, arg2, retval;
+		int err;
+	};
+</FONT></pre></td></tr></table></P><P>
+
+The members of the exception structure have the following meanings:
+<DL COMPACT>
+
+<DT><CODE>type</CODE>
+<DD>The type of mathematical error that occured; macros encoding error
+types are also defined in `<CODE>math.h</CODE>'.
+<P>
+
+<DT><CODE>name</CODE>
+<DD>a pointer to a null-terminated string holding the
+name of the math library function where the error occurred.
+<P>
+
+<DT><CODE>arg1, arg2</CODE>
+<DD>The arguments which caused the error.
+<P>
+
+<DT><CODE>retval</CODE>
+<DD>The error return value (what the calling function will return).
+<P>
+
+<DT><CODE>err</CODE>
+<DD>If set to be non-zero, this is the new value assigned to <CODE>errno</CODE>.
+</DL>
+<P>
+
+The error types defined in `<CODE>math.h</CODE>' represent possible mathematical
+errors as follows:
+</P><P>
+
+<DL COMPACT>
+
+<DT><CODE>DOMAIN</CODE>
+<DD>An argument was not in the domain of the function; e.g. <CODE>log(-1.0)</CODE>.
+<P>
+
+<DT><CODE>SING</CODE>
+<DD>The requested calculation would result in a singularity; e.g. <CODE>pow(0.0,-2.0)</CODE>
+<P>
+
+<DT><CODE>OVERFLOW</CODE>
+<DD>A calculation would produce a result too large to represent; e.g.
+<CODE>exp(1000.0)</CODE>. 
+<P>
+
+<DT><CODE>UNDERFLOW</CODE>
+<DD>A calculation would produce a result too small to represent; e.g.
+<CODE>exp(-1000.0)</CODE>. 
+<P>
+
+<DT><CODE>TLOSS</CODE>
+<DD>Total loss of precision.  The result would have no significant digits;
+e.g. <CODE>sin(10e70)</CODE>. 
+<P>
+
+<DT><CODE>PLOSS</CODE>
+<DD>Partial loss of precision.
+</DL>
+<P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+The library definition for <CODE>matherr</CODE> returns <CODE>0</CODE> in all cases.
+</P><P>
+
+You can change the calling function's result from a customized <CODE>matherr</CODE>
+by modifying <CODE>e-&#62;retval</CODE>, which propagates backs to the caller.
+</P><P>
+
+If <CODE>matherr</CODE> returns <CODE>0</CODE> (indicating that it was not able to resolve
+the error) the caller sets <CODE>errno</CODE> to an appropriate value, and prints
+an error message.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>matherr</CODE> is not ANSI C.  
+</P><P>
+
+<BR>
+<A NAME="modf"></A>
+<HR SIZE="6">
+<A NAME="SEC38"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC37"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC39"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC5"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.37 <CODE>modf</CODE>, <CODE>modff</CODE>---split fractional and integer parts </H2>
+<!--docid::SEC38::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double modf(double <VAR>val</VAR>, double *<VAR>ipart</VAR>);
+float modff(float <VAR>val</VAR>, float *<VAR>ipart</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>modf</CODE> splits the double <VAR>val</VAR> apart into an integer part
+and a fractional part, returning the fractional part and
+storing the integer part in <CODE>*<VAR>ipart</VAR></CODE>.  No rounding
+whatsoever is done; the sum of the integer and fractional
+parts is guaranteed to be exactly  equal to <VAR>val</VAR>.   That
+is, if . <VAR>realpart</VAR> = modf(<VAR>val</VAR>, &#38;<VAR>intpart</VAR>); then
+`<CODE><VAR>realpart</VAR>+<VAR>intpart</VAR></CODE>' is the same as <VAR>val</VAR>.
+<CODE>modff</CODE> is identical, save that it takes and returns
+<CODE>float</CODE> rather than <CODE>double</CODE> values. 
+<P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+The fractional part is returned.  Each result has the same
+sign as the supplied argument <VAR>val</VAR>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+<CODE>modf</CODE> is ANSI C. <CODE>modff</CODE> is an extension.
+</P><P>
+
+<BR>
+<A NAME="nan"></A>
+<HR SIZE="6">
+<A NAME="SEC39"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC38"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC40"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC5"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.38 <CODE>nan</CODE>, <CODE>nanf</CODE>---representation of "Not a Number" </H2>
+<!--docid::SEC39::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double nan(const char *);
+float nanf(const char *);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>nan</CODE> and <CODE>nanf</CODE> return an IEEE NaN (Not a Number) in
+double- and single-precision arithmetic respectively.  The
+argument is currently disregarded.
+<P>
+
+<BR>
+<A NAME="nextafter"></A>
+<HR SIZE="6">
+<A NAME="SEC40"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC39"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC41"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC5"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.39 <CODE>nextafter</CODE>, <CODE>nextafterf</CODE>---get next number </H2>
+<!--docid::SEC40::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double nextafter(double <VAR>val</VAR>, double <VAR>dir</VAR>);
+float nextafterf(float <VAR>val</VAR>, float <VAR>dir</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>nextafter</CODE> returns the double-precision floating-point number
+closest to <VAR>val</VAR> in the direction toward <VAR>dir</VAR>.  <CODE>nextafterf</CODE>
+performs the same operation in single precision.  For example,
+<CODE>nextafter(0.0,1.0)</CODE> returns the smallest positive number which is
+representable in double precision.
+<P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+Returns the next closest number to <VAR>val</VAR> in the direction toward
+<VAR>dir</VAR>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+Neither <CODE>nextafter</CODE> nor <CODE>nextafterf</CODE> is required by ANSI C
+or by the System V Interface Definition (Issue 2).
+</P><P>
+
+<BR>
+<A NAME="scalbn"></A>
+<HR SIZE="6">
+<A NAME="SEC41"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC40"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC6"> &lt;&lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC1"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &gt;&gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H2> 1.40 <CODE>scalbn</CODE>, <CODE>scalbnf</CODE>---scale by power of two </H2>
+<!--docid::SEC41::-->
+<STRONG>Synopsis</STRONG>
+<TABLE><tr><td>&nbsp;</td><td class=example><pre>#include &#60;math.h&#62;
+double scalbn(double <VAR>x</VAR>, int <VAR>y</VAR>);
+float scalbnf(float <VAR>x</VAR>, int <VAR>y</VAR>);
+
+</pre></td></tr></table><STRONG>Description</STRONG><BR>
+<CODE>scalbn</CODE> and <CODE>scalbnf</CODE> scale <VAR>x</VAR> by <VAR>n</VAR>, returning <VAR>x</VAR> times
+2 to the power <VAR>n</VAR>.  The result is computed by manipulating the
+exponent, rather than by actually performing an exponentiation or
+multiplication.
+<P>
+
+<BR>
+<STRONG>Returns</STRONG><BR>
+<VAR>x</VAR> times 2 to the power <VAR>n</VAR>.
+</P><P>
+
+<BR>
+<STRONG>Portability</STRONG><BR>
+Neither <CODE>scalbn</CODE> nor <CODE>scalbnf</CODE> is required by ANSI C or by the System V
+Interface Definition (Issue 2).
+</P><P>
+
+<BR>
+</P><P>
+
+<A NAME="Reentrancy"></A>
+<HR SIZE="6">
+<A NAME="SEC42"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC41"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43"> &gt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[ &lt;&lt; ]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[ &gt;&gt; ]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H1> 2. Reentrancy Properties of <CODE>libm</CODE> </H1>
+<!--docid::SEC42::-->
+<P>
+
+<A NAME="IDX5"></A>
+<A NAME="IDX6"></A>
+When a libm function detects an exceptional case, <CODE>errno</CODE> may be
+set, the <CODE>matherr</CODE> function may be called, and a error message 
+may be written to the standard error stream.  This behavior may not
+be reentrant.
+</P><P>
+
+With reentrant C libraries like the Red Hat newlib C library, <CODE>errno</CODE> is
+a macro which expands to the per-thread error value.  This makes it thread
+safe.
+</P><P>
+
+When the user provides his own <CODE>matherr</CODE> function it must be
+reentrant for the math library as a whole to be reentrant.
+</P><P>
+
+In normal debugged programs, there are usually no math subroutine
+errors--and therefore no assignments to <CODE>errno</CODE> and no <CODE>matherr</CODE>
+calls; in that situation, the math functions behave reentrantly.
+</P><P>
+
+<A NAME="Index"></A>
+<HR SIZE="6">
+<A NAME="SEC43"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC42"> &lt; </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[ &gt; ]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[ &lt;&lt; ]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top"> Up </A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[ &gt;&gt; ]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT"> &nbsp; <TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H1> Index </H1>
+<!--docid::SEC43::-->
+<table><tr><th valign=top>Jump to: &nbsp; </th><td><A HREF="libm.html#cp_A" style="text-decoration:none"><b>A</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_C" style="text-decoration:none"><b>C</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_E" style="text-decoration:none"><b>E</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_F" style="text-decoration:none"><b>F</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_G" style="text-decoration:none"><b>G</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_H" style="text-decoration:none"><b>H</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_I" style="text-decoration:none"><b>I</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_J" style="text-decoration:none"><b>J</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_L" style="text-decoration:none"><b>L</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_M" style="text-decoration:none"><b>M</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_N" style="text-decoration:none"><b>N</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_O" style="text-decoration:none"><b>O</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_P" style="text-decoration:none"><b>P</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_R" style="text-decoration:none"><b>R</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_S" style="text-decoration:none"><b>S</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_T" style="text-decoration:none"><b>T</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_Y" style="text-decoration:none"><b>Y</b></A>
+ &nbsp; 
+</td></tr></table><br><P></P>
+<TABLE border=0>
+<TR><TD></TD><TH ALIGN=LEFT>Index Entry</TH><TH ALIGN=LEFT> Section</TH></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_A"></A>A</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC3"><CODE>acos</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC3">1.2 <CODE>acos</CODE>, <CODE>acosf</CODE>---arc cosine</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC3"><CODE>acosf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC3">1.2 <CODE>acos</CODE>, <CODE>acosf</CODE>---arc cosine</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC4"><CODE>acosh</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC4">1.3 <CODE>acosh</CODE>, <CODE>acoshf</CODE>---inverse hyperbolic cosine</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC4"><CODE>acoshf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC4">1.3 <CODE>acosh</CODE>, <CODE>acoshf</CODE>---inverse hyperbolic cosine</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC5"><CODE>asin</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC5">1.4 <CODE>asin</CODE>, <CODE>asinf</CODE>---arc sine</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC5"><CODE>asinf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC5">1.4 <CODE>asin</CODE>, <CODE>asinf</CODE>---arc sine</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC6"><CODE>asinh</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC6">1.5 <CODE>asinh</CODE>, <CODE>asinhf</CODE>---inverse hyperbolic sine</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC6"><CODE>asinhf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC6">1.5 <CODE>asinh</CODE>, <CODE>asinhf</CODE>---inverse hyperbolic sine</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC7"><CODE>atan</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC7">1.6 <CODE>atan</CODE>, <CODE>atanf</CODE>---arc tangent</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC8"><CODE>atan2</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC8">1.7 <CODE>atan2</CODE>, <CODE>atan2f</CODE>---arc tangent of y/x</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC8"><CODE>atan2f</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC8">1.7 <CODE>atan2</CODE>, <CODE>atan2f</CODE>---arc tangent of y/x</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC7"><CODE>atanf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC7">1.6 <CODE>atan</CODE>, <CODE>atanf</CODE>---arc tangent</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC9"><CODE>atanh</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC9">1.8 <CODE>atanh</CODE>, <CODE>atanhf</CODE>---inverse hyperbolic tangent</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC9"><CODE>atanhf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC9">1.8 <CODE>atanh</CODE>, <CODE>atanhf</CODE>---inverse hyperbolic tangent</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_C"></A>C</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC31"><CODE>cbrt</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC31">1.30 <CODE>cbrt</CODE>, <CODE>cbrtf</CODE>---cube root</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC31"><CODE>cbrtf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC31">1.30 <CODE>cbrt</CODE>, <CODE>cbrtf</CODE>---cube root</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC15"><CODE>ceil</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC15">1.14 <CODE>floor</CODE>, <CODE>floorf</CODE>, <CODE>ceil</CODE>, <CODE>ceilf</CODE>---floor and ceiling</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC15"><CODE>ceilf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC15">1.14 <CODE>floor</CODE>, <CODE>floorf</CODE>, <CODE>ceil</CODE>, <CODE>ceilf</CODE>---floor and ceiling</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC32"><CODE>copysign</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC32">1.31 <CODE>copysign</CODE>, <CODE>copysignf</CODE>---sign of <VAR>y</VAR>, magnitude of <VAR>x</VAR></A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC32"><CODE>copysignf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC32">1.31 <CODE>copysign</CODE>, <CODE>copysignf</CODE>---sign of <VAR>y</VAR>, magnitude of <VAR>x</VAR></A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC27"><CODE>cos</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC27">1.26 <CODE>sin</CODE>, <CODE>sinf</CODE>, <CODE>cos</CODE>, <CODE>cosf</CODE>---sine or cosine</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC27"><CODE>cosf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC27">1.26 <CODE>sin</CODE>, <CODE>sinf</CODE>, <CODE>cos</CODE>, <CODE>cosf</CODE>---sine or cosine</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_E"></A>E</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC12"><CODE>erf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC12">1.11 <CODE>erf</CODE>, <CODE>erff</CODE>, <CODE>erfc</CODE>, <CODE>erfcf</CODE>---error function</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC12"><CODE>erfc</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC12">1.11 <CODE>erf</CODE>, <CODE>erff</CODE>, <CODE>erfc</CODE>, <CODE>erfcf</CODE>---error function</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC12"><CODE>erfcf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC12">1.11 <CODE>erf</CODE>, <CODE>erff</CODE>, <CODE>erfc</CODE>, <CODE>erfcf</CODE>---error function</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC12"><CODE>erff</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC12">1.11 <CODE>erf</CODE>, <CODE>erff</CODE>, <CODE>erfc</CODE>, <CODE>erfcf</CODE>---error function</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC13"><CODE>exp</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC13">1.12 <CODE>exp</CODE>, <CODE>expf</CODE>---exponential</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC13"><CODE>expf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC13">1.12 <CODE>exp</CODE>, <CODE>expf</CODE>---exponential</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC33"><CODE>expm1</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC33">1.32 <CODE>expm1</CODE>, <CODE>expm1f</CODE>---exponential minus 1</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC33"><CODE>expm1f</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC33">1.32 <CODE>expm1</CODE>, <CODE>expm1f</CODE>---exponential minus 1</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_F"></A>F</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC14"><CODE>fabs</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC14">1.13 <CODE>fabs</CODE>, <CODE>fabsf</CODE>---absolute value (magnitude)</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC14"><CODE>fabsf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC14">1.13 <CODE>fabs</CODE>, <CODE>fabsf</CODE>---absolute value (magnitude)</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC20"><CODE>finite</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC20">1.19 <CODE>isnan</CODE>,<CODE>isnanf</CODE>,<CODE>isinf</CODE>,<CODE>isinff</CODE>,<CODE>finite</CODE>,<CODE>finitef</CODE>---test for exceptional numbers</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC20"><CODE>finitef</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC20">1.19 <CODE>isnan</CODE>,<CODE>isnanf</CODE>,<CODE>isinf</CODE>,<CODE>isinff</CODE>,<CODE>finite</CODE>,<CODE>finitef</CODE>---test for exceptional numbers</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC15"><CODE>floor</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC15">1.14 <CODE>floor</CODE>, <CODE>floorf</CODE>, <CODE>ceil</CODE>, <CODE>ceilf</CODE>---floor and ceiling</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC15"><CODE>floorf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC15">1.14 <CODE>floor</CODE>, <CODE>floorf</CODE>, <CODE>ceil</CODE>, <CODE>ceilf</CODE>---floor and ceiling</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC16"><CODE>fmod</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC16">1.15 <CODE>fmod</CODE>, <CODE>fmodf</CODE>---floating-point remainder (modulo)</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC16"><CODE>fmodf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC16">1.15 <CODE>fmod</CODE>, <CODE>fmodf</CODE>---floating-point remainder (modulo)</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC17"><CODE>frexp</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC17">1.16 <CODE>frexp</CODE>, <CODE>frexpf</CODE>---split floating-point number</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC17"><CODE>frexpf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC17">1.16 <CODE>frexp</CODE>, <CODE>frexpf</CODE>---split floating-point number</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_G"></A>G</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC18"><CODE>gamma</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC18">1.17 <CODE>gamma</CODE>, <CODE>gammaf</CODE>, <CODE>lgamma</CODE>, <CODE>lgammaf</CODE>, <CODE>gamma_r</CODE>,</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC18"><CODE>gamma_r</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC18">1.17 <CODE>gamma</CODE>, <CODE>gammaf</CODE>, <CODE>lgamma</CODE>, <CODE>lgammaf</CODE>, <CODE>gamma_r</CODE>,</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC18"><CODE>gammaf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC18">1.17 <CODE>gamma</CODE>, <CODE>gammaf</CODE>, <CODE>lgamma</CODE>, <CODE>lgammaf</CODE>, <CODE>gamma_r</CODE>,</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC18"><CODE>gammaf_r</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC18">1.17 <CODE>gamma</CODE>, <CODE>gammaf</CODE>, <CODE>lgamma</CODE>, <CODE>lgammaf</CODE>, <CODE>gamma_r</CODE>,</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_H"></A>H</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC19"><CODE>hypot</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC19">1.18 <CODE>hypot</CODE>, <CODE>hypotf</CODE>---distance from origin</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC19"><CODE>hypotf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC19">1.18 <CODE>hypot</CODE>, <CODE>hypotf</CODE>---distance from origin</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_I"></A>I</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC34"><CODE>ilogb</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC34">1.33 <CODE>ilogb</CODE>, <CODE>ilogbf</CODE>---get exponent of floating-point number</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC34"><CODE>ilogbf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC34">1.33 <CODE>ilogb</CODE>, <CODE>ilogbf</CODE>---get exponent of floating-point number</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC35"><CODE>infinity</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC35">1.34 <CODE>infinity</CODE>, <CODE>infinityf</CODE>---representation of infinity</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC35"><CODE>infinityf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC35">1.34 <CODE>infinity</CODE>, <CODE>infinityf</CODE>---representation of infinity</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC20"><CODE>isinf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC20">1.19 <CODE>isnan</CODE>,<CODE>isnanf</CODE>,<CODE>isinf</CODE>,<CODE>isinff</CODE>,<CODE>finite</CODE>,<CODE>finitef</CODE>---test for exceptional numbers</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC20"><CODE>isinff</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC20">1.19 <CODE>isnan</CODE>,<CODE>isnanf</CODE>,<CODE>isinf</CODE>,<CODE>isinff</CODE>,<CODE>finite</CODE>,<CODE>finitef</CODE>---test for exceptional numbers</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC20"><CODE>isnan</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC20">1.19 <CODE>isnan</CODE>,<CODE>isnanf</CODE>,<CODE>isinf</CODE>,<CODE>isinff</CODE>,<CODE>finite</CODE>,<CODE>finitef</CODE>---test for exceptional numbers</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC20"><CODE>isnanf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC20">1.19 <CODE>isnan</CODE>,<CODE>isnanf</CODE>,<CODE>isinf</CODE>,<CODE>isinff</CODE>,<CODE>finite</CODE>,<CODE>finitef</CODE>---test for exceptional numbers</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_J"></A>J</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC10"><CODE>j0</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC10">1.9 <CODE>jN</CODE>,<CODE>jNf</CODE>,<CODE>yN</CODE>,<CODE>yNf</CODE>---Bessel functions</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC10"><CODE>j0f</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC10">1.9 <CODE>jN</CODE>,<CODE>jNf</CODE>,<CODE>yN</CODE>,<CODE>yNf</CODE>---Bessel functions</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC10"><CODE>j1</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC10">1.9 <CODE>jN</CODE>,<CODE>jNf</CODE>,<CODE>yN</CODE>,<CODE>yNf</CODE>---Bessel functions</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC10"><CODE>j1f</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC10">1.9 <CODE>jN</CODE>,<CODE>jNf</CODE>,<CODE>yN</CODE>,<CODE>yNf</CODE>---Bessel functions</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC10"><CODE>jn</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC10">1.9 <CODE>jN</CODE>,<CODE>jNf</CODE>,<CODE>yN</CODE>,<CODE>yNf</CODE>---Bessel functions</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC10"><CODE>jnf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC10">1.9 <CODE>jN</CODE>,<CODE>jNf</CODE>,<CODE>yN</CODE>,<CODE>yNf</CODE>---Bessel functions</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_L"></A>L</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC21"><CODE>ldexp</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC21">1.20 <CODE>ldexp</CODE>, <CODE>ldexpf</CODE>---load exponent</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC21"><CODE>ldexpf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC21">1.20 <CODE>ldexp</CODE>, <CODE>ldexpf</CODE>---load exponent</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC18"><CODE>lgamma</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC18">1.17 <CODE>gamma</CODE>, <CODE>gammaf</CODE>, <CODE>lgamma</CODE>, <CODE>lgammaf</CODE>, <CODE>gamma_r</CODE>,</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC18"><CODE>lgamma_r</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC18">1.17 <CODE>gamma</CODE>, <CODE>gammaf</CODE>, <CODE>lgamma</CODE>, <CODE>lgammaf</CODE>, <CODE>gamma_r</CODE>,</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC18"><CODE>lgammaf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC18">1.17 <CODE>gamma</CODE>, <CODE>gammaf</CODE>, <CODE>lgamma</CODE>, <CODE>lgammaf</CODE>, <CODE>gamma_r</CODE>,</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC18"><CODE>lgammaf_r</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC18">1.17 <CODE>gamma</CODE>, <CODE>gammaf</CODE>, <CODE>lgamma</CODE>, <CODE>lgammaf</CODE>, <CODE>gamma_r</CODE>,</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC22"><CODE>log</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC22">1.21 <CODE>log</CODE>, <CODE>logf</CODE>---natural logarithms</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC23"><CODE>log10</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC23">1.22 <CODE>log10</CODE>, <CODE>log10f</CODE>---base 10 logarithms</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC23"><CODE>log10f</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC23">1.22 <CODE>log10</CODE>, <CODE>log10f</CODE>---base 10 logarithms</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC36"><CODE>log1p</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC36">1.35 <CODE>log1p</CODE>, <CODE>log1pf</CODE>---log of <CODE>1 + <VAR>x</VAR></CODE></A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC36"><CODE>log1pf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC36">1.35 <CODE>log1p</CODE>, <CODE>log1pf</CODE>---log of <CODE>1 + <VAR>x</VAR></CODE></A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC22"><CODE>logf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC22">1.21 <CODE>log</CODE>, <CODE>logf</CODE>---natural logarithms</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_M"></A>M</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC37"><CODE>matherr</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC37">1.36 <CODE>matherr</CODE>---modifiable math error handler</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#IDX6"><CODE>matherr</CODE> and reentrancy</A></TD><TD valign=top><A HREF="libm.html#SEC42">2. Reentrancy Properties of <CODE>libm</CODE></A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC38"><CODE>modf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC38">1.37 <CODE>modf</CODE>, <CODE>modff</CODE>---split fractional and integer parts</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC38"><CODE>modff</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC38">1.37 <CODE>modf</CODE>, <CODE>modff</CODE>---split fractional and integer parts</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_N"></A>N</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC39"><CODE>nan</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC39">1.38 <CODE>nan</CODE>, <CODE>nanf</CODE>---representation of "Not a Number"</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC39"><CODE>nanf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC39">1.38 <CODE>nan</CODE>, <CODE>nanf</CODE>---representation of "Not a Number"</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC40"><CODE>nextafter</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC40">1.39 <CODE>nextafter</CODE>, <CODE>nextafterf</CODE>---get next number</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC40"><CODE>nextafterf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC40">1.39 <CODE>nextafter</CODE>, <CODE>nextafterf</CODE>---get next number</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_O"></A>O</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#IDX4">OS stubs</A></TD><TD valign=top><A HREF="libm.html#SEC1">1. Mathematical Functions (<TT>`math.h'</TT>)</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_P"></A>P</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC24"><CODE>pow</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC24">1.23 <CODE>pow</CODE>, <CODE>powf</CODE>---x to the power y</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC24"><CODE>powf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC24">1.23 <CODE>pow</CODE>, <CODE>powf</CODE>---x to the power y</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_R"></A>R</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#IDX5">reentrancy</A></TD><TD valign=top><A HREF="libm.html#SEC42">2. Reentrancy Properties of <CODE>libm</CODE></A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC25"><CODE>remainder</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC25">1.24 <CODE>remainder</CODE>, <CODE>remainderf</CODE>---round and remainder</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC25"><CODE>remainderf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC25">1.24 <CODE>remainder</CODE>, <CODE>remainderf</CODE>---round and remainder</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_S"></A>S</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC41"><CODE>scalbn</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC41">1.40 <CODE>scalbn</CODE>, <CODE>scalbnf</CODE>---scale by power of two</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC41"><CODE>scalbnf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC41">1.40 <CODE>scalbn</CODE>, <CODE>scalbnf</CODE>---scale by power of two</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC27"><CODE>sin</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC27">1.26 <CODE>sin</CODE>, <CODE>sinf</CODE>, <CODE>cos</CODE>, <CODE>cosf</CODE>---sine or cosine</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC27"><CODE>sinf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC27">1.26 <CODE>sin</CODE>, <CODE>sinf</CODE>, <CODE>cos</CODE>, <CODE>cosf</CODE>---sine or cosine</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC28"><CODE>sinh</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC28">1.27 <CODE>sinh</CODE>, <CODE>sinhf</CODE>---hyperbolic sine</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC28"><CODE>sinhf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC28">1.27 <CODE>sinh</CODE>, <CODE>sinhf</CODE>---hyperbolic sine</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC26"><CODE>sqrt</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC26">1.25 <CODE>sqrt</CODE>, <CODE>sqrtf</CODE>---positive square root</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC26"><CODE>sqrtf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC26">1.25 <CODE>sqrt</CODE>, <CODE>sqrtf</CODE>---positive square root</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#IDX3">stubs</A></TD><TD valign=top><A HREF="libm.html#SEC1">1. Mathematical Functions (<TT>`math.h'</TT>)</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#IDX2">support subroutines</A></TD><TD valign=top><A HREF="libm.html#SEC1">1. Mathematical Functions (<TT>`math.h'</TT>)</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#IDX1">system calls</A></TD><TD valign=top><A HREF="libm.html#SEC1">1. Mathematical Functions (<TT>`math.h'</TT>)</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_T"></A>T</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC29"><CODE>tan</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC29">1.28 <CODE>tan</CODE>, <CODE>tanf</CODE>---tangent</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC29"><CODE>tanf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC29">1.28 <CODE>tan</CODE>, <CODE>tanf</CODE>---tangent</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC30"><CODE>tanh</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC30">1.29 <CODE>tanh</CODE>, <CODE>tanhf</CODE>---hyperbolic tangent</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC30"><CODE>tanhf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC30">1.29 <CODE>tanh</CODE>, <CODE>tanhf</CODE>---hyperbolic tangent</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+<TR><TH><A NAME="cp_Y"></A>Y</TH><TD></TD><TD></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC10"><CODE>y0</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC10">1.9 <CODE>jN</CODE>,<CODE>jNf</CODE>,<CODE>yN</CODE>,<CODE>yNf</CODE>---Bessel functions</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC10"><CODE>y0f</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC10">1.9 <CODE>jN</CODE>,<CODE>jNf</CODE>,<CODE>yN</CODE>,<CODE>yNf</CODE>---Bessel functions</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC10"><CODE>y1</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC10">1.9 <CODE>jN</CODE>,<CODE>jNf</CODE>,<CODE>yN</CODE>,<CODE>yNf</CODE>---Bessel functions</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC10"><CODE>y1f</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC10">1.9 <CODE>jN</CODE>,<CODE>jNf</CODE>,<CODE>yN</CODE>,<CODE>yNf</CODE>---Bessel functions</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC10"><CODE>yn</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC10">1.9 <CODE>jN</CODE>,<CODE>jNf</CODE>,<CODE>yN</CODE>,<CODE>yNf</CODE>---Bessel functions</A></TD></TR>
+<TR><TD></TD><TD valign=top><A HREF="libm.html#SEC10"><CODE>ynf</CODE></A></TD><TD valign=top><A HREF="libm.html#SEC10">1.9 <CODE>jN</CODE>,<CODE>jNf</CODE>,<CODE>yN</CODE>,<CODE>yNf</CODE>---Bessel functions</A></TD></TR>
+<TR><TD COLSPAN=3> <HR></TD></TR>
+</TABLE><P></P><table><tr><th valign=top>Jump to: &nbsp; </th><td><A HREF="libm.html#cp_A" style="text-decoration:none"><b>A</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_C" style="text-decoration:none"><b>C</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_E" style="text-decoration:none"><b>E</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_F" style="text-decoration:none"><b>F</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_G" style="text-decoration:none"><b>G</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_H" style="text-decoration:none"><b>H</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_I" style="text-decoration:none"><b>I</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_J" style="text-decoration:none"><b>J</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_L" style="text-decoration:none"><b>L</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_M" style="text-decoration:none"><b>M</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_N" style="text-decoration:none"><b>N</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_O" style="text-decoration:none"><b>O</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_P" style="text-decoration:none"><b>P</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_R" style="text-decoration:none"><b>R</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_S" style="text-decoration:none"><b>S</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_T" style="text-decoration:none"><b>T</b></A>
+ &nbsp; 
+<A HREF="libm.html#cp_Y" style="text-decoration:none"><b>Y</b></A>
+ &nbsp; 
+</td></tr></table><br><P>
+
+<HR SIZE="6">
+<A NAME="SEC_Contents"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H1>Table of Contents</H1>
+<UL>
+<A NAME="TOC1" HREF="libm.html#SEC1">1. Mathematical Functions (<TT>`math.h'</TT>)</A>
+<BR>
+<UL>
+<A NAME="TOC2" HREF="libm.html#SEC2">1.1 Version of library</A>
+<BR>
+<A NAME="TOC3" HREF="libm.html#SEC3">1.2 <CODE>acos</CODE>, <CODE>acosf</CODE>---arc cosine</A>
+<BR>
+<A NAME="TOC4" HREF="libm.html#SEC4">1.3 <CODE>acosh</CODE>, <CODE>acoshf</CODE>---inverse hyperbolic cosine</A>
+<BR>
+<A NAME="TOC5" HREF="libm.html#SEC5">1.4 <CODE>asin</CODE>, <CODE>asinf</CODE>---arc sine</A>
+<BR>
+<A NAME="TOC6" HREF="libm.html#SEC6">1.5 <CODE>asinh</CODE>, <CODE>asinhf</CODE>---inverse hyperbolic sine</A>
+<BR>
+<A NAME="TOC7" HREF="libm.html#SEC7">1.6 <CODE>atan</CODE>, <CODE>atanf</CODE>---arc tangent</A>
+<BR>
+<A NAME="TOC8" HREF="libm.html#SEC8">1.7 <CODE>atan2</CODE>, <CODE>atan2f</CODE>---arc tangent of y/x</A>
+<BR>
+<A NAME="TOC9" HREF="libm.html#SEC9">1.8 <CODE>atanh</CODE>, <CODE>atanhf</CODE>---inverse hyperbolic tangent</A>
+<BR>
+<A NAME="TOC10" HREF="libm.html#SEC10">1.9 <CODE>jN</CODE>,<CODE>jNf</CODE>,<CODE>yN</CODE>,<CODE>yNf</CODE>---Bessel functions</A>
+<BR>
+<A NAME="TOC11" HREF="libm.html#SEC11">1.10 <CODE>cosh</CODE>, <CODE>coshf</CODE>---hyperbolic cosine</A>
+<BR>
+<A NAME="TOC12" HREF="libm.html#SEC12">1.11 <CODE>erf</CODE>, <CODE>erff</CODE>, <CODE>erfc</CODE>, <CODE>erfcf</CODE>---error function</A>
+<BR>
+<A NAME="TOC13" HREF="libm.html#SEC13">1.12 <CODE>exp</CODE>, <CODE>expf</CODE>---exponential</A>
+<BR>
+<A NAME="TOC14" HREF="libm.html#SEC14">1.13 <CODE>fabs</CODE>, <CODE>fabsf</CODE>---absolute value (magnitude)</A>
+<BR>
+<A NAME="TOC15" HREF="libm.html#SEC15">1.14 <CODE>floor</CODE>, <CODE>floorf</CODE>, <CODE>ceil</CODE>, <CODE>ceilf</CODE>---floor and ceiling</A>
+<BR>
+<A NAME="TOC16" HREF="libm.html#SEC16">1.15 <CODE>fmod</CODE>, <CODE>fmodf</CODE>---floating-point remainder (modulo)</A>
+<BR>
+<A NAME="TOC17" HREF="libm.html#SEC17">1.16 <CODE>frexp</CODE>, <CODE>frexpf</CODE>---split floating-point number</A>
+<BR>
+<A NAME="TOC18" HREF="libm.html#SEC18">1.17 <CODE>gamma</CODE>, <CODE>gammaf</CODE>, <CODE>lgamma</CODE>, <CODE>lgammaf</CODE>, <CODE>gamma_r</CODE>,</A>
+<BR>
+<A NAME="TOC19" HREF="libm.html#SEC19">1.18 <CODE>hypot</CODE>, <CODE>hypotf</CODE>---distance from origin</A>
+<BR>
+<A NAME="TOC20" HREF="libm.html#SEC20">1.19 <CODE>isnan</CODE>,<CODE>isnanf</CODE>,<CODE>isinf</CODE>,<CODE>isinff</CODE>,<CODE>finite</CODE>,<CODE>finitef</CODE>---test for exceptional numbers</A>
+<BR>
+<A NAME="TOC21" HREF="libm.html#SEC21">1.20 <CODE>ldexp</CODE>, <CODE>ldexpf</CODE>---load exponent</A>
+<BR>
+<A NAME="TOC22" HREF="libm.html#SEC22">1.21 <CODE>log</CODE>, <CODE>logf</CODE>---natural logarithms</A>
+<BR>
+<A NAME="TOC23" HREF="libm.html#SEC23">1.22 <CODE>log10</CODE>, <CODE>log10f</CODE>---base 10 logarithms</A>
+<BR>
+<A NAME="TOC24" HREF="libm.html#SEC24">1.23 <CODE>pow</CODE>, <CODE>powf</CODE>---x to the power y</A>
+<BR>
+<A NAME="TOC25" HREF="libm.html#SEC25">1.24 <CODE>remainder</CODE>, <CODE>remainderf</CODE>---round and remainder</A>
+<BR>
+<A NAME="TOC26" HREF="libm.html#SEC26">1.25 <CODE>sqrt</CODE>, <CODE>sqrtf</CODE>---positive square root</A>
+<BR>
+<A NAME="TOC27" HREF="libm.html#SEC27">1.26 <CODE>sin</CODE>, <CODE>sinf</CODE>, <CODE>cos</CODE>, <CODE>cosf</CODE>---sine or cosine</A>
+<BR>
+<A NAME="TOC28" HREF="libm.html#SEC28">1.27 <CODE>sinh</CODE>, <CODE>sinhf</CODE>---hyperbolic sine</A>
+<BR>
+<A NAME="TOC29" HREF="libm.html#SEC29">1.28 <CODE>tan</CODE>, <CODE>tanf</CODE>---tangent</A>
+<BR>
+<A NAME="TOC30" HREF="libm.html#SEC30">1.29 <CODE>tanh</CODE>, <CODE>tanhf</CODE>---hyperbolic tangent</A>
+<BR>
+<A NAME="TOC31" HREF="libm.html#SEC31">1.30 <CODE>cbrt</CODE>, <CODE>cbrtf</CODE>---cube root</A>
+<BR>
+<A NAME="TOC32" HREF="libm.html#SEC32">1.31 <CODE>copysign</CODE>, <CODE>copysignf</CODE>---sign of <VAR>y</VAR>, magnitude of <VAR>x</VAR></A>
+<BR>
+<A NAME="TOC33" HREF="libm.html#SEC33">1.32 <CODE>expm1</CODE>, <CODE>expm1f</CODE>---exponential minus 1</A>
+<BR>
+<A NAME="TOC34" HREF="libm.html#SEC34">1.33 <CODE>ilogb</CODE>, <CODE>ilogbf</CODE>---get exponent of floating-point number</A>
+<BR>
+<A NAME="TOC35" HREF="libm.html#SEC35">1.34 <CODE>infinity</CODE>, <CODE>infinityf</CODE>---representation of infinity</A>
+<BR>
+<A NAME="TOC36" HREF="libm.html#SEC36">1.35 <CODE>log1p</CODE>, <CODE>log1pf</CODE>---log of <CODE>1 + <VAR>x</VAR></CODE></A>
+<BR>
+<A NAME="TOC37" HREF="libm.html#SEC37">1.36 <CODE>matherr</CODE>---modifiable math error handler</A>
+<BR>
+<A NAME="TOC38" HREF="libm.html#SEC38">1.37 <CODE>modf</CODE>, <CODE>modff</CODE>---split fractional and integer parts</A>
+<BR>
+<A NAME="TOC39" HREF="libm.html#SEC39">1.38 <CODE>nan</CODE>, <CODE>nanf</CODE>---representation of "Not a Number"</A>
+<BR>
+<A NAME="TOC40" HREF="libm.html#SEC40">1.39 <CODE>nextafter</CODE>, <CODE>nextafterf</CODE>---get next number</A>
+<BR>
+<A NAME="TOC41" HREF="libm.html#SEC41">1.40 <CODE>scalbn</CODE>, <CODE>scalbnf</CODE>---scale by power of two</A>
+<BR>
+</UL>
+<A NAME="TOC42" HREF="libm.html#SEC42">2. Reentrancy Properties of <CODE>libm</CODE></A>
+<BR>
+<A NAME="TOC43" HREF="libm.html#SEC43">Index</A>
+<BR>
+</UL>
+<HR SIZE=1>
+<A NAME="SEC_OVERVIEW"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H1>Short Table of Contents</H1>
+<BLOCKQUOTE>
+<A NAME="TOC1" HREF="libm.html#SEC1">1. Mathematical Functions (<TT>`math.h'</TT>)</A>
+<BR>
+<A NAME="TOC42" HREF="libm.html#SEC42">2. Reentrancy Properties of <CODE>libm</CODE></A>
+<BR>
+<A NAME="TOC43" HREF="libm.html#SEC43">Index</A>
+<BR>
+
+</BLOCKQUOTE>
+<HR SIZE=1>
+<A NAME="SEC_About"></A>
+<TABLE CELLPADDING=1 CELLSPACING=1 BORDER=0>
+<TR><TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Top">Top</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_Contents">Contents</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC43">Index</A>]</TD>
+<TD VALIGN="MIDDLE" ALIGN="LEFT">[<A HREF="libm.html#SEC_About"> ? </A>]</TD>
+</TR></TABLE>
+<H1>About this document</H1>
+This document was generated by <I>Jeff Johnston</I> on <I>January, 30  2004</I>
+using <A HREF="http://www.mathematik.uni-kl.de/~obachman/Texi2html
+"><I>texi2html</I></A>
+<P></P>  
+The buttons in the navigation panels have the following meaning:
+<P></P>
+<table border = "1">
+<TR>
+<TH> Button </TH>
+<TH> Name </TH>
+<TH> Go to </TH>
+<TH> From 1.2.3 go to</TH>
+</TR>
+<TR>
+<TD ALIGN="CENTER">
+ [ &lt; ] </TD>
+<TD ALIGN="CENTER">
+Back
+</TD>
+<TD>
+previous section in reading order
+</TD>
+<TD>
+1.2.2
+</TD>
+</TR>
+<TR>
+<TD ALIGN="CENTER">
+ [ &gt; ] </TD>
+<TD ALIGN="CENTER">
+Forward
+</TD>
+<TD>
+next section in reading order
+</TD>
+<TD>
+1.2.4
+</TD>
+</TR>
+<TR>
+<TD ALIGN="CENTER">
+ [ &lt;&lt; ] </TD>
+<TD ALIGN="CENTER">
+FastBack
+</TD>
+<TD>
+previous or up-and-previous section 
+</TD>
+<TD>
+1.1
+</TD>
+</TR>
+<TR>
+<TD ALIGN="CENTER">
+ [ Up ] </TD>
+<TD ALIGN="CENTER">
+Up
+</TD>
+<TD>
+up section
+</TD>
+<TD>
+1.2
+</TD>
+</TR>
+<TR>
+<TD ALIGN="CENTER">
+ [ &gt;&gt; ] </TD>
+<TD ALIGN="CENTER">
+FastForward
+</TD>
+<TD>
+next or up-and-next section
+</TD>
+<TD>
+1.3
+</TD>
+</TR>
+<TR>
+<TD ALIGN="CENTER">
+ [Top] </TD>
+<TD ALIGN="CENTER">
+Top
+</TD>
+<TD>
+cover (top) of document
+</TD>
+<TD>
+ &nbsp; 
+</TD>
+</TR>
+<TR>
+<TD ALIGN="CENTER">
+ [Contents] </TD>
+<TD ALIGN="CENTER">
+Contents
+</TD>
+<TD>
+table of contents
+</TD>
+<TD>
+ &nbsp; 
+</TD>
+</TR>
+<TR>
+<TD ALIGN="CENTER">
+ [Index] </TD>
+<TD ALIGN="CENTER">
+Index
+</TD>
+<TD>
+concept index
+</TD>
+<TD>
+ &nbsp; 
+</TD>
+</TR>
+<TR>
+<TD ALIGN="CENTER">
+ [ ? ] </TD>
+<TD ALIGN="CENTER">
+About
+</TD>
+<TD>
+this page
+</TD>
+<TD>
+ &nbsp; 
+</TD>
+</TR>
+</TABLE>
+<P></P>
+where the <STRONG> Example </STRONG> assumes that the current position 
+is at <STRONG> Subsubsection One-Two-Three </STRONG> of a document of 
+the following structure:
+<UL>
+<LI> 1. Section One  </LI>
+<UL>
+<LI>1.1 Subsection One-One</LI>
+<UL>
+<LI> ... </LI>
+</UL>
+<LI>1.2 Subsection One-Two</LI>
+<UL>
+<LI>1.2.1 Subsubsection One-Two-One
+</LI><LI>1.2.2 Subsubsection One-Two-Two
+</LI><LI>1.2.3 Subsubsection One-Two-Three &nbsp; &nbsp; <STRONG>
+&lt;== Current Position </STRONG>
+</LI><LI>1.2.4 Subsubsection One-Two-Four
+</LI></UL>
+<LI>1.3 Subsection One-Three</LI>
+<UL>
+<LI> ... </LI>
+</UL>
+<LI>1.4 Subsection One-Four</LI>
+</UL>
+</UL>
+
+<HR SIZE=1>
+<BR>  
+<FONT SIZE="-1">
+This document was generated
+by <I>Jeff Johnston</I> on <I>January, 30  2004</I>
+using <A HREF="http://www.mathematik.uni-kl.de/~obachman/Texi2html
+"><I>texi2html</I></A>
+
+</BODY>
+</HTML>
