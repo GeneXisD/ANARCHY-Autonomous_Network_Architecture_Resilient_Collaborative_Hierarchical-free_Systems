@@ -40,6 +40,30 @@ Preserved artifact metadata:
 
 The Git blob SHA-1 is not a SHA-256 file digest. A cryptographic digest should be generated from the actual PDF bytes during a controlled archival pass.
 
+### mediocre-go-lib
+
+**Status: SUPPORTED artifact identity; historical Git/license/module metadata VERIFIED**
+
+A provenance record has been added at:
+
+`docs/provenance/mediocre-go-lib.md`
+
+The record documents the historical GitHub repository, explicit 2023 tombstone/migration, v2 Go module metadata, historical MIT license and copyright notice, selected commit lineage, dependency state at the final substantive GitHub snapshot, and the current-source verification gap.
+
+Historical source evidence:
+
+- Repository: `github.com/mediocregopher/mediocre-go-lib`
+- Last substantive GitHub commit: `47c8c5b8504f02617f225f9850d5b250708326d9`
+- Tombstone: `41a84f123a49c1ee0c309f19d9d90d5dc46854d6`
+- v2 module: `github.com/mediocregopher/mediocre-go-lib/v2`
+- Go version: `1.15`
+- Historical license: MIT
+- Historical copyright notice: Brian Picciano, 2018
+- External Go module requirements at the inspected snapshot: none declared
+- Current-source byte equivalence with `code.betamike.com`: not yet verified
+
+This artifact is recorded as a **historical upstream component**, not as ANARCHY-originated code.
+
 ## Unverified / awaiting primary evidence
 
 ### DC219 Open Source Software Policy
@@ -75,7 +99,7 @@ The project has been identified by the user as an iDevice one-click installation
 
 ## Legal/provenance rule
 
-```text
+```
 OPEN-SOURCE LICENSE
        ≠
 TRADEMARK LICENSE
@@ -98,6 +122,7 @@ A component can be legally modifiable under its copyright license while still re
 | Linux kernel/modules | Linux upstream | GPL obligations | possible | GPL obligations | N/A | policy TBD | SUPPORTED |
 | Apple restore tools | upstream projects | project-specific | possible | project-specific | Apple marks separate | policy TBD | PROPOSED |
 | Oracle StorageTek SL150 disclosure | Oracle product + named third-party components | component-specific | component-specific | component-specific | separate | Oracle disclosure | COMPARATIVE |
+| mediocre-go-lib | mediocregopher / code.betamike.com | MIT (historical GitHub evidence) | TBD | historical license permits subject to terms | separate | project evidence | SUPPORTED |
 | FunkyMios | TBD | TBD | TBD | TBD | TBD | TBD | UNVERIFIED |
 | Linux&C Vol.39 | publication | publication copyright | TBD | TBD | N/A | TBD | UNVERIFIED |
 | DC219 policy | TBD | policy document | TBD | TBD | TBD | actual text required | UNVERIFIED |
