@@ -20,6 +20,25 @@ The supplied build documentation demonstrates explicit dependency configuration,
 
 The public specification demonstrates declarative repository/package installation. Trademark permissions remain separate from the software licenses.
 
+### Dyne:bolic historical manual and Dyne:IV SDK source evidence
+
+**Status: PRIMARY-SOURCE LICENSE TEXT INSPECTED; COMPONENT-WIDE AUDIT STILL REQUIRED**
+
+The historical *Dyne:II GNU/Linux User's Guide* identifies Denis Rojo (Jaromil), copyright 2003–2007. Its license section permits copying, distribution, and modification under GNU Free Documentation License 1.2 or later, with the Introductory and Colophon sections invariant and specified front-/back-cover attribution text. The same section separately states that Dyne:bolic GNU/Linux software is GPL version 2 or later.
+
+Primary source: https://distro.ibiblio.org/dynebolic/dynebolic-manual.txt
+
+The current `dyne/dynebolic-upstream` `dyneIV/Makefile` has a separate source header identifying copyright 2023–2024 Dyne.org Foundation, design/maintenance by Denis Roio, and GNU GPL version 3 or later. This finding applies to that file's stated source license; it must not be generalized to every file or bundled component in the repository without inspecting each notice.
+
+Source repositories:
+
+- Historical fork: https://github.com/GeneXisD/dynebolic
+- Current upstream: https://github.com/dyne/dynebolic-upstream
+
+The historical fork's `dyneIV/SDK` and the current upstream `dyneIV/` are distinct source layouts. Preserve both histories. The fork's `build.sh` and `config` identify a Devuan Beowulf 3.0.0 build base; current upstream's README and Makefile identify Debian/Devuan-oriented build steps. Native Slackware compatibility is **UNVERIFIED**.
+
+Required follow-up: inspect per-file LICENSE/COPYING/NOTICE headers and all bundled modules, source packages, firmware, and dependencies before making any redistribution or relicensing conclusion.
+
 ### Oracle StorageTek SL150 licensing disclosure
 
 **Status: COMPARATIVE PRIMARY-SOURCE EVIDENCE**
