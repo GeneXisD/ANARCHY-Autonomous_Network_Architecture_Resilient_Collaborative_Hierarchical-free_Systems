@@ -6,9 +6,10 @@ Read these files in this order:
 
 1. `ANARCHY_CONTEXT.md` — canonical project context, current execution priority, and continuation directive.
 2. `docs/platform/slackware-first-build.md` — active Slackware-first build sequence, Dyne SDK compatibility findings, and baseline checklist.
-3. `docs/provenance/one-click-provisioning.md` — build, package, provenance, and one-click provisioning model.
-4. `docs/licensing/evidence-status.md` — verified versus unresolved licensing and source evidence.
-5. `README.md` — broader research corpus and project history.
+3. `docs/research/open-source-developments-2026-11.md` — recent open-source developments, OCR provenance guidance, and supply-chain security recommendations.
+4. `docs/provenance/one-click-provisioning.md` — build, package, provenance, and one-click provisioning model.
+5. `docs/licensing/evidence-status.md` — verified versus unresolved licensing and source evidence.
+6. `README.md` — broader research corpus and project history.
 
 When working specifically on the Apple restore research stream, also read:
 
