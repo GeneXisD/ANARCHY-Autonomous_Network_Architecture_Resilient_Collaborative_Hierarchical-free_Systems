@@ -601,3 +601,51 @@ Use these exact labels when practical:
 - **BLOCKED** — cannot proceed without a missing artifact, permission, or technical dependency.
 
 Last baseline: **2026-09-07**.
+
+
+## 25. ANARCHY Hive and six-node development environment (2026-11-03)
+
+The current design direction is a six-computer cooperative development environment. Each computer remains an independently administered physical node with its own identity, capabilities, and AI agent. The agents cooperate through authenticated messages, task delegation, shared project records, and evidence links; this is a proposed multi-agent system, not a deployed or proven single intelligence.
+
+Current node inventory (roles are provisional and must be verified on the hardware):
+
+| Node | Current assignment / known state |
+|---|---|
+| Dell OptiPlex | Slackware and Emerde build environment; installation and exact version/architecture must be inventoried |
+| Newer Windows laptop | Visual Studio 2026 Community and XAMPP development environment; Git was not available on PATH at last check; Chocolatey installation was discussed but not verified |
+| Older MacBook | Ubuntu 14.04 legacy environment; CPU architecture and installed state must be verified |
+| MacBook M4 | Modern macOS development and XAMPP environment |
+| Additional MacBook | Hardware, OS, and role not yet inventoried |
+| Older iMac | Hardware, OS, and role not yet inventoried |
+
+Do not invent machine hostnames, IP addresses, CPU architectures, OS versions, or successful installations. Keep those details in a private inventory until verified.
+
+### Hive architecture
+
+- Each node has a unique cryptographic identity, least-privilege permissions, local agent runtime, local logs, and a declared capability manifest.
+- Shared knowledge is scoped and synchronized by authorization; local memory and private files are not automatically replicated.
+- Agents can request work, delegate tasks, exchange evidence, and independently verify results.
+- Coordination should be distributed or lease-based, with a documented fallback when a coordinator or network path is unavailable.
+- XAMPP is the initial development/management application foundation (Apache/PHP/MariaDB where appropriate). Native build tools, AI runtimes, cryptographic services, and node daemons remain separate processes where required.
+- No single node, IBM service, Oracle service, or vendor is a permanent system master.
+
+### Network trust boundaries
+
+Hyphanet (formerly Freenet) Darknet is a candidate trusted friend-to-friend overlay. Tor is a separate privacy-routing layer for explicitly selected outbound traffic. Do not claim that Hyphanet automatically routes traffic through Tor. Specify and test routes, DNS behavior, firewall boundaries, and failure modes independently. Start with authenticated LAN/SSH/TLS connectivity before adding overlays.
+
+### External tools and organizational references
+
+IBM orchestration technologies and open protocols such as MCP/A2A are candidates for interoperability evaluation, not a claimed partnership or mandatory dependency. Broadcom product capabilities are production reference points; ANARCHY intends to build its own services in the XAMPP-centered environment rather than assume Broadcom software is installed or licensed. Oracle LiveLabs is a permitted workshop/testing venue subject to its rules; preserve source, build artifacts, and evidence independently. Lockheed Martin-linked open-source tools are candidates only after upstream source, exact license, version, dependency, and OS support are verified.
+
+### Build progress visibility
+
+BUILD_STATUS.md is the current public status snapshot. docs/workflow/BUILD-BLOCK-WORKFLOW.md defines how to report each build block. GitHub issues and updates provide an event history. Public status must never expose secrets, private network addresses, credentials, or sensitive vulnerability details.
+
+See:
+- docs/architecture/ANARCHY-HIVE-NODE-ARCHITECTURE.md
+- docs/workflow/BUILD-BLOCK-WORKFLOW.md
+- BUILD_STATUS.md
+
+### Current state boundary
+
+The architecture and workflow are **PROPOSED** until implemented and tested. The existing local Windows Git-Core checkout, Visual Studio installation, XAMPP services, Slackware/Emerde installation, and each Mac's OS state must be verified independently before any item is marked IMPLEMENTED or REPRODUCED.
