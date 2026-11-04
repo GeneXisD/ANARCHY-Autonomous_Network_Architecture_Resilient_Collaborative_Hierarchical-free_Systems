@@ -129,6 +129,45 @@ Tor is a separate privacy-routing layer for explicitly selected outbound traffic
 
 Do not describe the environment as military-grade or certified until a defined standard, independent assessment, and test evidence support that claim.
 
+
+## 7.1 Lockheed Martin Software Factory — reference model
+
+The two Lockheed Martin references supplied for this project describe a **software-factory operating model**, not simply a list of open-source utilities:
+
+- [Lockheed Martin: Software Factory continues to expand company-wide software development capabilities (2020)](https://www.lockheedmartin.com/en-us/news/features/2020/lockheed-martin-software-factory-continues-expand-company-accelerates-software-development-capabilities.html)
+- [Lockheed Martin: Software Factory](https://www.lockheedmartin.com/en-us/capabilities/digital-transformation/software-factory.html)
+
+ANARCHY should study this model for its engineering workflow: standardized development environments, repeatable build pipelines, automation, integration and test practices, reusable tooling, and a path from developer work to validated software delivery. The 2020 article is historical context; the current capability page should be rechecked before making claims about current products, scale, or implementation details.
+
+### ANARCHY adaptation
+
+The ANARCHY implementation is its own independently built software factory, centered initially on the XAMPP management plane and the six-node physical lab. Its planned factory stages are:
+
+1. **Intake:** create a build-block/task record, identify owner and target node, define acceptance criteria.
+2. **Source control:** identify repository, branch, commit, authorship, and applicable license.
+3. **Environment qualification:** verify OS, CPU architecture, compiler/toolchain, dependencies, and build configuration on the selected physical node.
+4. **Automated build:** execute a repeatable, logged build with pinned inputs where feasible.
+5. **Continuous integration:** run formatting, static analysis, unit/integration tests, and platform-specific checks.
+6. **Security and provenance:** generate an SBOM, record dependency licenses, scan artifacts, preserve hashes and build logs, and sign outputs where the key-management design is ready.
+7. **Independent verification:** a second node or reviewer checks the artifact and evidence rather than trusting the producing node alone.
+8. **Release authorization:** a human-approved gate checks test results, rights, notices, security findings, and distribution permissions.
+9. **Deployment and feedback:** deploy only to an authorized target, record the version, and feed failures back into a tracked build block.
+
+### Candidate capability map
+
+| Software-factory capability | ANARCHY implementation direction |
+|---|---|
+| Standardized engineering workflow | BUILD_STATUS.md, build-block issue template, and build-block workflow |
+| Multi-platform development | Windows/Visual Studio, OptiPlex/Slackware-Emerde, Ubuntu 14.04 legacy node, and macOS nodes |
+| Build automation | Native per-platform scripts and reproducible build definitions |
+| CI and automated testing | Repository CI plus node-specific test runners; select tooling after compatibility review |
+| Shared engineering services | XAMPP-based project dashboard, task ledger, artifact index, and API |
+| Security and supply-chain controls | SBOM, dependency/license inventory, hashes, provenance, signed artifacts, and access controls |
+| Distributed engineering | Per-node AI agents, task delegation, independent verification, and offline-capable work queues |
+| Release governance | Human approval and explicit licensing/security acceptance gates |
+
+These are ANARCHY design targets, not claims that Lockheed Martin software, processes, source code, or proprietary systems are available to or adopted by ANARCHY. No affiliation, endorsement, partnership, or license is implied. Each candidate tool must be evaluated from its authoritative upstream source, exact version, license, dependency chain, and supported platforms before inclusion.
+
 ## 7. External technology and validation boundaries
 
 | Reference | Intended use in ANARCHY | Boundary |
