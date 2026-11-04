@@ -14,6 +14,18 @@ ANARCHY is a research and engineering framework for autonomous, resilient, colla
 
 The project is not limited to one executable. It is a corpus, architecture, build/provisioning model, provenance system, and experimental integration layer.
 
+## Current execution priority — Slackware first (2026-11)
+
+For the current implementation sequence, **Slackware is the first GNU/Linux base environment**. Establish and document the actual Slackware host before integrating Dyne:bolic, Dyne SDK components, or ANARCHY network services. This is the active build priority and supersedes older immediate-work sequencing where it conflicts; it does not delete or mark complete the separate Apple restore research stream.
+
+Canonical build plan: `docs/platform/slackware-first-build.md`.
+
+Execution order: Slackware baseline and package/toolchain inventory → Dyne:bolic source/SDK lineage and compatibility audit → Dyne integration → ANARCHY networking/orchestration → multi-machine validation.
+
+The exact Slackware release, architecture, installed package state, kernel, boot mode, and build dependencies remain **UNVERIFIED** until inspected on the actual host. Do not infer them from prior machine descriptions. Do not make destructive package, storage, partition, or bootloader changes during the initial inventory.
+
+The historical `GeneXisD/dynebolic` fork and current `dyne/dynebolic-upstream` repository are separate source lines and must be preserved separately. The inspected Dyne:bolic IV build recipes are Debian/Devuan-oriented; native Slackware compatibility has not been established. Resolve that as an explicit build gate rather than silently changing the host distribution.
+
 ## 2. Primary system goal
 
 A major current objective is to **replicate the observable/open-source host-side model of Apple restore** without attempting to defeat proprietary security controls.
