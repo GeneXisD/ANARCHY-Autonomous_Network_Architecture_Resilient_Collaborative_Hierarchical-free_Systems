@@ -4,6 +4,12 @@
 
 ANARCHY is now being organized as a **25-year technical research record plus an enterprise-ready, reproducible, provenance-aware engineering platform**. The project connects historical GNU/Linux and networking work with modern build, licensing, provisioning, archival, distributed persistence, and legitimate device-restore research.
 
+## Live build visibility
+
+Before asking for a project update, read **BUILD_STATUS.md** at the repository root. It is the public current snapshot of the active build block, verified progress, next action, and blockers. Read docs/workflow/BUILD-BLOCK-WORKFLOW.md for how to publish updates.
+
+For the current architecture, read docs/architecture/ANARCHY-HIVE-NODE-ARCHITECTURE.md. For rights decisions, read docs/licensing/ANARCHY-LICENSE-GOVERNANCE.md.
+
 ## For a new ChatGPT/agent session
 
 Read these files in this order:
