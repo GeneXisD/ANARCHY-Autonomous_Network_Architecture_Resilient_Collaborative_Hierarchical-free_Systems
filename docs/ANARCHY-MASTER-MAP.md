@@ -330,3 +330,49 @@ Current ANARCHY status should therefore distinguish:
 - **Required:** Modern hardware, RF, routing, identity, security and recovery testing before making deployment-scale claims.
 
 This distinction preserves the project's provenance while allowing historical work to become a foundation for new engineering.
+
+
+## Operational Hive and build-status plane
+
+The proposed **ANARCHY Hive** connects six independently operated physical computers, each with its own node identity and AI agent. It adds a distributed coordination plane without making one workstation, cloud provider, or vendor a permanent master.
+
+    SIX PHYSICAL NODES
+      ├── OptiPlex: Slackware / Emerde build node
+      ├── Windows laptop: Visual Studio 2026 / XAMPP development workstation
+      ├── Older MacBook: Ubuntu 14.04 legacy node
+      ├── MacBook M4: modern macOS / XAMPP node
+      ├── Additional MacBook: hardware and OS inventory pending
+      └── Older iMac: hardware and OS inventory pending
+              |
+              v
+    PER-NODE IDENTITY + LOCAL AI AGENT
+              |
+              v
+    AUTHENTICATED MESSAGE / TASK / EVIDENCE EXCHANGE
+              |
+              v
+    SHARED TASK LEDGER + BUILD STATUS
+              |
+              v
+    XAMPP-BASED MANAGEMENT INTERFACE
+              |
+              v
+    LOCAL TESTING -> EXTERNAL VALIDATION (Oracle LiveLabs where permitted)
+
+This is a **PROPOSED** architecture, not a claim that the six-node network or agents are already deployed. The node inventory and implementation gates are documented in docs/architecture/ANARCHY-HIVE-NODE-ARCHITECTURE.md.
+
+### Networking and trust boundaries
+
+- Physical LAN/SSH/TLS provides the initial authenticated machine-to-machine path.
+- Hyphanet (the continuation of the original Freenet project) Darknet mode is a candidate trusted friend-to-friend overlay.
+- Tor is a separate privacy-routing layer for explicitly selected outbound traffic.
+- Hyphanet does not automatically route all traffic through Tor. Routing, isolation, DNS behavior, and leak tests must be designed and verified independently.
+- No public status page may disclose private IP addresses, hostnames, credentials, keys, or sensitive vulnerability details.
+
+### Coordination and external technology
+
+IBM orchestration technologies and open protocols (including MCP and A2A) are candidates for evaluation, not mandatory dependencies or evidence of an IBM partnership. Broadcom capabilities are production reference points; ANARCHY's own services are to be implemented and licensed independently. Oracle LiveLabs is an external workshop/testing environment, not the authoritative source repository. Lockheed Martin-linked open-source tools remain candidate dependencies until their exact upstream sources, versions, licenses, and platform support are verified.
+
+### Build visibility
+
+BUILD_STATUS.md is the public current-state snapshot. GitHub build-block issues/comments provide the event history. A build block must show its state, current step, last verified action, next action, blocker (if any), and evidence link. See docs/workflow/BUILD-BLOCK-WORKFLOW.md.
