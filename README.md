@@ -34,6 +34,19 @@ A related systems question is:
 
 ---
 
+## Current build priority: Slackware first
+
+The current implementation sequence begins with a verified Slackware base environment. The immediate order is:
+
+1. Inventory and validate the actual Slackware host, package state, kernel, boot configuration, and native toolchain.
+2. Preserve and compare the historical Dyne:bolic fork and current upstream SDK lineage.
+3. Resolve the Debian/Devuan assumptions in the inspected Dyne:bolic IV build recipes before attempting integration on Slackware.
+4. Integrate ANARCHY networking and orchestration only after the base and build process are reproducible.
+
+The exact Slackware release and host configuration are not yet recorded as verified. See [the Slackware-first build foundation](docs/platform/slackware-first-build.md). This is the current execution priority; other research branches remain in the corpus without being represented as completed.
+
+---
+
 ## Major research branches
 
 - Autonomous systems
